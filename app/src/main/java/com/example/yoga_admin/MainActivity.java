@@ -19,28 +19,29 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.todolist.OliDB.Models.Task;
-import com.example.todolist.OliDB.TasksTable;
+import com.example.yoga_admin.API.Requests.PingRequest;
+import com.example.yoga_admin.OliDB.Models.Workshop;
+import com.example.yoga_admin.OliDB.WorkshopsTable;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> taskList;
+    private ArrayList<String> workshopList;
     private ArrayAdapter<String> adapter;
-    private static final int ADD_TASK_REQUEST = 1; // Request code for AddTaskActivity
-    private static final int EDIT_TASK_REQUEST = 2; // Request code for EditTaskActivity
+    private static final int ADD_workshop_REQUEST = 1; // Request code for AddWorkshopActivity
+    private static final int EDIT_workshop_REQUEST = 2; // Request code for EditWorkshopActivity
     private EditText editText;
-    private TasksTable tasksDB; // Preloaded tasks from the database
+    private WorkshopsTable WorkshopsDB; // Preloaded Workshops from the database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialise task list and adapter with custom layout
-        taskList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, R.layout.custom_task_list_item, R.id.textViewTaskName, taskList);
+        // Initialise workshop list and adapter with custom layout
+        workshopList = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, R.layout.custom_workshop_list_item, R.id.textViewWorkshopName, workshopList);
         // Set up the ListView
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -52,51 +53,51 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editOrDeleteTask(position);
+                editOrDeleteworkshop(position);
             }
         });
 
         // Add bottom border to EditText
         addBottomBorder();
 
-        // Initialise tasks database
-        tasksDB = TasksTable.getInstance();
-        Log.d("MyApp", "Activity onCreate()");
-
-        // If any tasks are loaded from the database, add them to the list
-        if (!tasksDB.loaded().isEmpty()) {
-            for (Task task : tasksDB.loaded()) {
-                Log.d("Tasks", task.getTaskName());
-                taskList.add(tasksDB.loaded().indexOf(task), task.getTaskName());
-            }
-        }
+//        // Initialise Workshops database
+//        WorkshopsDB = WorkshopsTable.getInstance();
+//        Log.d("MyApp", "Activity onCreate()");
+//
+//        // If any Workshops are loaded from the database, add them to the list
+//        if (!WorkshopsDB.loaded().isEmpty()) {
+//            for (Workshop workshop : WorkshopsDB.loaded()) {
+//                Log.d("Workshops", workshop.getWorkshopName());
+//                workshopList.add(WorkshopsDB.loaded().indexOf(workshop), workshop.getWorkshopName());
+//            }
+//        }
     }
 
-    // Method to add task
-    public void addTask(View view) {
-        String task = editText.getText().toString().trim();
+    // Method to add workshop
+    public void addworkshop(View view) {
+        String workshop = editText.getText().toString().trim();
 
-        if (!task.isEmpty()) {
-            // Add task to the beginning of the list
-            taskList.add(0, task);
+        if (!workshop.isEmpty()) {
+            // Add workshop to the beginning of the list
+            workshopList.add(0, workshop);
             adapter.notifyDataSetChanged();
             editText.getText().clear();
-            TasksTable.getInstance().insertTask(task, "", 0); // Insert task into the database
+            WorkshopsTable.getInstance().insertWorkshop(workshop, "", 0); // Insert workshop into the database
         } else {
-            Toast.makeText(this, "Please enter a task", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a workshop", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Method to handle editing or deleting a task
-    private void editOrDeleteTask(final int position) {
-        // Placeholder method for editing or deleting a task
-        final String task = taskList.get(position);
-        // For simplicity, currently showing a toast message with task details
-        Toast.makeText(this, "Selected task: " + task + "\nPosition: " + position, Toast.LENGTH_SHORT).show();
+    // Method to handle editing or deleting a workshop
+    private void editOrDeleteworkshop(final int position) {
+        // Placeholder method for editing or deleting a workshop
+        final String workshop = workshopList.get(position);
+        // For simplicity, currently showing a toast message with workshop details
+        Toast.makeText(this, "Selected workshop: " + workshop + "\nPosition: " + position, Toast.LENGTH_SHORT).show();
     }
 
-    // Method to delete a task
-    public void deleteTask(View view) {
+    // Method to delete a workshop
+    public void deleteworkshop(View view) {
         View listItem = (View) view.getParent(); // Find the parent view of the delete button
         final int position = ((ListView) findViewById(R.id.listView)).getPositionForView(listItem); // Find the index of the list item
         showDeleteConfirmationDialog(position); // Show the delete confirmation dialog
@@ -106,17 +107,17 @@ public class MainActivity extends AppCompatActivity {
     private void showDeleteConfirmationDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         Context context = this;
-        builder.setMessage("Are you sure you want to delete this task?")
+        builder.setMessage("Are you sure you want to delete this workshop?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // If user confirms deletion, delete the task
-                        if (TasksTable.getInstance().deleteByPosition(position)) {
-                            String taskName = taskList.get(position).toString();
-                            taskList.remove(position);
+                        // If user confirms deletion, delete the workshop
+                        if (WorkshopsTable.getInstance().deleteByPosition(position)) {
+                            String workshopName = workshopList.get(position).toString();
+                            workshopList.remove(position);
                             adapter.notifyDataSetChanged();
                             StringBuilder msg = new StringBuilder("Deleted ");
-                            msg.append(taskName);
+                            msg.append(workshopName);
                             Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -131,38 +132,40 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Method to navigate to AddTaskActivity
-    public void navigateToAddTask(View view) {
-        Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivityForResult(intent, ADD_TASK_REQUEST); // Start AddTaskActivity with request code
+    // Method to navigate to AddWorkshopActivity
+    public void navigateToAddWorkshop(View view) {
+        PingRequest request = new PingRequest(this);
+        request.makeRequest();
+//        Intent intent = new Intent(this, AddWorkshopActivity.class);
+//        startActivityForResult(intent, ADD_workshop_REQUEST); // Start AddworkshopActivity with request code
     }
 
-    // Method to navigate to EditTaskActivity
-    public void navigateToEditTask(View view) {
-        Intent intent = new Intent(this, EditTaskActivity.class);
+    // Method to navigate to EditWorkshopActivity
+    public void navigateToEditWorkshop(View view) {
+        Intent intent = new Intent(this, EditWorkshopActivity.class);
         startActivity(intent);
     }
 
-    // Handle the result from AddTaskActivity and EditTaskActivity
+    // Handle the result from AddWorkshopActivity and EditWorkshopActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == ADD_TASK_REQUEST) {
-                // Extract the task details from the intent
-                String taskName = data.getStringExtra("taskName");
-                String taskDescription = data.getStringExtra("taskDescription");
+            if (requestCode == ADD_workshop_REQUEST) {
+                // Extract the workshop details from the intent
+                String workshopName = data.getStringExtra("workshopName");
+                String workshopDescription = data.getStringExtra("workshopDescription");
 
-                // Construct the task string
-                String task = taskName + ": " + taskDescription;
+                // Construct the workshop string
+                String workshop = workshopName + ": " + workshopDescription;
 
-                // Add the task to the top of the list
-                TasksTable.getInstance().insertTask(taskName, taskDescription, 0); // Insert task into the database
-                taskList.add(0, task);
+                // Add the workshop to the top of the list
+                WorkshopsTable.getInstance().insertWorkshop(workshopName, workshopDescription, 0); // Insert workshop into the database
+                workshopList.add(0, workshop);
                 adapter.notifyDataSetChanged();
-            } else if (requestCode == EDIT_TASK_REQUEST) {
-                // Handle the result from EditTaskActivity if needed
+            } else if (requestCode == EDIT_workshop_REQUEST) {
+                // Handle the result from EditworkshopActivity if needed
             }
         }
     }

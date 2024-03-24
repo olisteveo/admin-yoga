@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.todolist.OliDB.Models.Task;
+import com.example.yoga_admin.OliDB.Models.Workshop;
 
 import java.util.ArrayList;
 
@@ -18,8 +18,8 @@ public class WorkshopsTable extends DB {
 
     protected static final String TABLE_NAME = "workshops";
     protected static final String COLUMN_ID = "id";
-    protected static final String COLUMN_TASK_NAME = "workshop_name";
-    protected static final String COLUMN_TASK_DESCRIPTION = "workshop_description";
+    protected static final String COLUMN_WORKSHOP_NAME = "workshop_name";
+    protected static final String COLUMN_WORKSHOP_DESCRIPTION = "workshop_description";
     protected static final String COLUMN_COMPLETED = "completed";
     private ArrayList<Workshop> loaded;
     private static WorkshopsTable instance = null;
@@ -34,7 +34,7 @@ public class WorkshopsTable extends DB {
     public WorkshopsTable(Application app, String dbName, int dbVersion) {
         super(app, dbName, dbVersion);
         loaded = new ArrayList<Workshop>();
-        Log.d(LOG_TAG, "Tasks DB init");
+        Log.d(LOG_TAG, "Yoga DB init");
 
     }
 
@@ -71,8 +71,8 @@ public class WorkshopsTable extends DB {
     @Override
     protected StringBuilder getCreateTableSQL() {
         return super.getCreateTableSQL()
-                .append(COLUMN_TASK_NAME + " TEXT,")
-                .append(COLUMN_TASK_DESCRIPTION + " TEXT DEFAULT '',")
+                .append(COLUMN_WORKSHOP_NAME + " TEXT,")
+                .append(COLUMN_WORKSHOP_DESCRIPTION + " TEXT DEFAULT '',")
                 .append(COLUMN_COMPLETED + " INTEGER DEFAULT 0)")
                 // close the opening parenthesis created from the super call that
                 // added the definition of the primary key field
@@ -113,7 +113,7 @@ public class WorkshopsTable extends DB {
      * @return The loaded tasks.
      */
     @Override
-    public ArrayList<Task> loaded() {
+    public ArrayList<Workshop> loaded() {
         return loaded;
     }
 
@@ -125,45 +125,45 @@ public class WorkshopsTable extends DB {
      * @throws IllegalArgumentException Returns the zero-based index for the given column name,
      *                                   or throws IllegalArgumentException if the column doesn't exist.
      */
-    protected Task getObjectModelFromCursor(Cursor cursor)
+    protected Workshop getObjectModelFromCursor(Cursor cursor)
     {
-        Task task = Task.newFromInserted(
+        Workshop workshop = Workshop.newFromInserted(
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TASK_NAME)),
-                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TASK_DESCRIPTION)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WORKSHOP_NAME)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WORKSHOP_DESCRIPTION)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_COMPLETED))
         );
-        return task;
+        return workshop;
     }
 
     @Override
     protected void addLoadedModelledRecord(Object record)
     {
-        this.loaded().add((Task) record);
+        this.loaded().add((Workshop) record);
     }
 
     /**
      * Inserts a new task into the database.
      *
-     * @param taskName        The name of the task.
-     * @param taskDescription The description of the task.
+     * @param workshopName        The name of the yoga session.
+     * @param workshopDescription The description of the task.
      * @param completed       The completion status of the task.
      * @return                The ID of the inserted task.
      */
-    public long insertTask(String taskName, String taskDescription, int completed) {
+    public long insertWorkshop(String workshopName, String workshopDescription, int completed) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_TASK_NAME, taskName);
-        values.put(COLUMN_TASK_DESCRIPTION, taskDescription);
+        values.put(COLUMN_WORKSHOP_NAME, workshopName);
+        values.put(COLUMN_WORKSHOP_DESCRIPTION, workshopDescription);
         values.put(COLUMN_COMPLETED, completed);
         long id = getWritableDatabase().insert(getTableName(), null, values);
-        Task task = Task.newFromInserted((int) id, taskName, taskDescription, completed);
-        task.setId((int) id);
+        Workshop workshop = Workshop.newFromInserted((int) id, workshopName, workshopDescription, completed);
+        workshop.setId((int) id);
         db.close();
-        StringBuilder msg = new StringBuilder("Inserted Task - ID ");
-        msg.append(task.getId());
+        StringBuilder msg = new StringBuilder("Inserted Yoga Workshop - ID ");
+        msg.append(workshop.getId());
         Log.i(LOG_TAG, msg.toString());
-        loaded.add(0, task);
+        loaded.add(0, workshop);
         return id;
     }
 
@@ -174,17 +174,6 @@ public class WorkshopsTable extends DB {
      * @return         True if the task was successfully deleted, false otherwise.
      */
     public boolean deleteByPosition(int position) {
-        Task task = loaded().get(position);
-        Log.i(LOG_TAG, "Deleting task - " + task.getTaskName());
-        String sql = getDeleteRecordSQL(task.getId());
-        Log.i(LOG_TAG, "SQL" + sql);
-        getWritableDatabase().execSQL(sql);
-        StringBuilder msg = new StringBuilder("Deleted Task - " + task.getTaskName() + "- ID ")
-                .append(task.getId())
-                .append(" - Position ")
-                .append(position);
-        Log.i(LOG_TAG, msg.toString());
-        loaded.remove(task);
         return true;
     }
 

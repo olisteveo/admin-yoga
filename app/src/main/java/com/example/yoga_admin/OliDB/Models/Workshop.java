@@ -3,14 +3,14 @@ package com.example.yoga_admin.OliDB.Models;
 /**
  * Represents a task in the to-do list.
  */
-public class Task {
+public class Workshop {
     private int id; // Task ID
-    private String taskName; // Name of the task
+    private String workshopName; // Name of the task
     private String taskDescription; // Description of the task
     private int completed; // Flag indicating whether the task is completed or not
 
     // Constructor
-    public Task() {
+    public Workshop() {
     }
 
     /**
@@ -21,13 +21,13 @@ public class Task {
      * @param completed       The completion status of the task.
      * @return                The new modeled task object.
      */
-    public static Task newFromBasic(String taskName, String taskDescription, int completed)
+    public static Workshop newFromBasic(String taskName, String taskDescription, int completed)
     {
-        Task task = new Task();
-        task.setTaskName(taskName);
-        task.setTaskDescription(taskDescription);
-        task.setCompleted(completed);
-        return task;
+        Workshop workshop = new Workshop();
+        workshop.setWorkshopName(taskName);
+        workshop.setTaskDescription(taskDescription);
+        workshop.setCompleted(completed);
+        return workshop;
     }
 
     /**
@@ -39,11 +39,11 @@ public class Task {
      * @param completed       The completion status of the task.
      * @return                The new modeled task object.
      */
-    public static Task newFromInserted(int id, String taskName, String taskDescription, int completed)
+    public static Workshop newFromInserted(int id, String taskName, String taskDescription, int completed)
     {
-        Task task = newFromBasic(taskName, taskDescription, completed);
-        task.setId(id);
-        return task;
+        Workshop workshop = newFromBasic(taskName, taskDescription, completed);
+        workshop.setId(id);
+        return workshop;
     }
 
     // Getters and setters
@@ -71,17 +71,17 @@ public class Task {
      *
      * @return The task name.
      */
-    public String getTaskName() {
-        return taskName;
+    public String getWorkshopName() {
+        return workshopName;
     }
 
     /**
      * Sets the name of the task.
      *
-     * @param taskName The task name to set.
+     * @param workshopName The task name to set.
      */
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setWorkshopName(String workshopName) {
+        this.workshopName = workshopName;
     }
 
     /**
@@ -127,6 +127,6 @@ public class Task {
      */
     @Override
     public String toString() {
-        return getTaskName();
+        return getWorkshopName();
     }
 }
