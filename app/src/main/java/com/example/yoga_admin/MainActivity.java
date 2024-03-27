@@ -1,4 +1,3 @@
-// MainActivity.java
 package com.example.yoga_admin;
 
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.yoga_admin.API.Requests.PingRequest;
 import com.example.yoga_admin.OliDB.Models.Workshop;
 import com.example.yoga_admin.OliDB.WorkshopsTable;
 
@@ -29,10 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> workshopList;
     private ArrayAdapter<String> adapter;
-    private static final int ADD_workshop_REQUEST = 1; // Request code for AddWorkshopActivity
-    private static final int EDIT_workshop_REQUEST = 2; // Request code for EditWorkshopActivity
-    private EditText editText;
-    private WorkshopsTable WorkshopsDB; // Preloaded Workshops from the database
+    private static final int ADD_WORKSHOP_REQUEST = 1; // Request code for AddWorkshopActivity
+    private static final int EDIT_WORKSHOP_REQUEST = 2; // Request code for EditWorkshopActivity
+    private WorkshopsTable workshopsDB; // Preloaded Workshops from the database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,50 +43,33 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        // Find the EditText
-        editText = findViewById(R.id.editText);
 
         // Set click listener for list items
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editOrDeleteworkshop(position);
+                editOrDeleteWorkshop(position);
             }
         });
 
         // Add bottom border to EditText
-        addBottomBorder();
 
-//        // Initialise Workshops database
-//        WorkshopsDB = WorkshopsTable.getInstance();
-//        Log.d("MyApp", "Activity onCreate()");
-//
-//        // If any Workshops are loaded from the database, add them to the list
-//        if (!WorkshopsDB.loaded().isEmpty()) {
-//            for (Workshop workshop : WorkshopsDB.loaded()) {
-//                Log.d("Workshops", workshop.getWorkshopName());
-//                workshopList.add(WorkshopsDB.loaded().indexOf(workshop), workshop.getWorkshopName());
-//            }
-//        }
-    }
+        // Initialise Workshops database
+        workshopsDB = WorkshopsTable.initFor(getApplication(), "workshops_db", 1);
+        Log.d("MainActivity", "onCreate");
 
-    // Method to add workshop
-    public void addworkshop(View view) {
-        String workshop = editText.getText().toString().trim();
-
-        if (!workshop.isEmpty()) {
-            // Add workshop to the beginning of the list
-            workshopList.add(0, workshop);
+        // If any Workshops are loaded from the database, add them to the list
+        workshopsDB.load();
+        if (!workshopsDB.loaded().isEmpty()) {
+            for (Workshop workshop : workshopsDB.loaded()) {
+                workshopList.add(workshop.getWorkshopName());
+            }
             adapter.notifyDataSetChanged();
-            editText.getText().clear();
-            WorkshopsTable.getInstance().insertWorkshop(workshop, "", 0); // Insert workshop into the database
-        } else {
-            Toast.makeText(this, "Please enter a workshop", Toast.LENGTH_SHORT).show();
         }
     }
 
     // Method to handle editing or deleting a workshop
-    private void editOrDeleteworkshop(final int position) {
+    private void editOrDeleteWorkshop(final int position) {
         // Placeholder method for editing or deleting a workshop
         final String workshop = workshopList.get(position);
         // For simplicity, currently showing a toast message with workshop details
@@ -97,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Method to delete a workshop
-    public void deleteworkshop(View view) {
+    public void deleteWorkshop(View view) {
         View listItem = (View) view.getParent(); // Find the parent view of the delete button
         final int position = ((ListView) findViewById(R.id.listView)).getPositionForView(listItem); // Find the index of the list item
         showDeleteConfirmationDialog(position); // Show the delete confirmation dialog
@@ -112,13 +92,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // If user confirms deletion, delete the workshop
-                        if (WorkshopsTable.getInstance().deleteByPosition(position)) {
-                            String workshopName = workshopList.get(position).toString();
+                        if (workshopsDB.deleteByPosition(position)) {
+                            String workshopName = workshopList.get(position);
                             workshopList.remove(position);
                             adapter.notifyDataSetChanged();
-                            StringBuilder msg = new StringBuilder("Deleted ");
-                            msg.append(workshopName);
-                            Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Deleted " + workshopName, Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -134,10 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Method to navigate to AddWorkshopActivity
     public void navigateToAddWorkshop(View view) {
-        PingRequest request = new PingRequest(this);
-        request.makeRequest();
-//        Intent intent = new Intent(this, AddWorkshopActivity.class);
-//        startActivityForResult(intent, ADD_workshop_REQUEST); // Start AddworkshopActivity with request code
+        Intent intent = new Intent(this, AddWorkshopActivity.class);
+        startActivityForResult(intent, ADD_WORKSHOP_REQUEST); // Start AddWorkshopActivity with request code
     }
 
     // Method to navigate to EditWorkshopActivity
@@ -152,29 +128,32 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == ADD_workshop_REQUEST) {
+            if (requestCode == ADD_WORKSHOP_REQUEST) {
                 // Extract the workshop details from the intent
                 String workshopName = data.getStringExtra("workshopName");
                 String workshopDescription = data.getStringExtra("workshopDescription");
+                String date = data.getStringExtra("date");
+                String startTime = data.getStringExtra("startTime");
+                String endTime = data.getStringExtra("endTime");
+                int capacity = data.getIntExtra("capacity", 0);
+                float price = data.getFloatExtra("price", 0.0f);
+                String workshopType = data.getStringExtra("workshopType");
 
                 // Construct the workshop string
                 String workshop = workshopName + ": " + workshopDescription;
 
                 // Add the workshop to the top of the list
-                WorkshopsTable.getInstance().insertWorkshop(workshopName, workshopDescription, 0); // Insert workshop into the database
                 workshopList.add(0, workshop);
                 adapter.notifyDataSetChanged();
-            } else if (requestCode == EDIT_workshop_REQUEST) {
-                // Handle the result from EditworkshopActivity if needed
+
+                // Insert workshop into the database
+                workshopsDB.insertWorkshop(workshopName, workshopDescription, date, startTime, endTime, capacity, price, workshopType);
+            } else if (requestCode == EDIT_WORKSHOP_REQUEST) {
+                // Handle the result from EditWorkshopActivity if needed
             }
         }
     }
 
     // Method to add bottom border to EditText
-    private void addBottomBorder() {
-        // Set bottom border color and height
-        Drawable drawable = getResources().getDrawable(R.drawable.edittext_bottom_border);
-        drawable.setColorFilter(Color.parseColor("#FF4081"), PorterDuff.Mode.SRC_ATOP);
-        editText.setBackground(drawable);
-    }
+
 }

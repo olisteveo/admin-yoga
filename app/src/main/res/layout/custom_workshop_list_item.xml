@@ -40,6 +40,6 @@
         android:src="@android:drawable/ic_delete"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="deleteWorkshop"
-        app:tint="#FF4081" />
+        app:tint="#1A3E1B" />
 
 </LinearLayout>

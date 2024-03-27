@@ -1,33 +1,130 @@
-<!-- activity_add_task.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/editTextWorkshopName"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/workshop_name"
-        android:inputType="text" />
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextWorkshopDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextWorkshopName"
-        android:layout_marginTop="16dp"
-        android:hint="@string/workshop_description"
-        android:inputType="textMultiLine"
-        android:minLines="3" />
+        <EditText
+            android:id="@+id/editTextWorkshopName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/workshop_name"
+            android:inputType="text"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/buttonAddWorkshop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextWorkshopDescription"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_workshop" />
+        <EditText
+            android:id="@+id/editTextWorkshopDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextWorkshopName"
+            android:layout_marginTop="250dp"
+            android:hint="@string/workshop_description"
+            android:inputType="textMultiLine"
+            android:minLines="3" />
 
-</RelativeLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextWorkshopDescription"
+            android:layout_marginTop="16dp"
+            android:hint="@string/date">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColorHint="#616161" /> <!-- Remove inputType to prevent keyboard from showing -->
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/editTextStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextDate"
+            android:layout_marginTop="136dp"
+            android:hint="@string/start_time"
+            android:inputType="time"
+            android:minHeight="48dp"
+            android:textColorHint="#37474F"
+            tools:ignore="NotSibling" />
+
+        <!-- Label for Workshop Capacity -->
+
+        <EditText
+            android:id="@+id/editTextEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextStartTime"
+            android:layout_marginTop="40dp"
+            android:autofillHints=""
+            android:hint="@string/end_time"
+            android:inputType="time"
+            android:minHeight="48dp"
+            android:textColorHint="#37474F" />
+
+        <!-- Label for Yoga Type -->
+
+        <TextView
+            android:id="@+id/textViewCapacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Capacity"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintEnd_toEndOf="@id/spinnerCapacity"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="@id/spinnerCapacity" />
+
+        <Spinner
+            android:id="@+id/spinnerCapacity"
+            android:layout_width="353dp"
+            android:layout_height="48dp"
+            android:layout_below="@id/editTextEndTime"
+            android:layout_marginTop="337dp"
+            android:entries="@array/capacity_options" />
+
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerCapacity"
+            android:layout_marginTop="-166dp"
+            android:hint="@string/price"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            android:textColorHint="#37474F" />
+
+        <TextView
+            android:id="@+id/textViewYogaType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yoga Type"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Spinner
+            android:id="@+id/spinnerWorkshopType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextPrice"
+            android:layout_marginTop="189dp"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/buttonAddWorkshop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerWorkshopType"
+            android:layout_marginTop="119dp"
+            android:text="@string/add_workshop" />
+
+    </RelativeLayout>
+</ScrollView>

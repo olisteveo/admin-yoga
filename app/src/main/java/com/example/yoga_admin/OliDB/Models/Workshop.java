@@ -1,132 +1,197 @@
 package com.example.yoga_admin.OliDB.Models;
 
 /**
- * Represents a task in the to-do list.
+ * Represents a workshop in the database.
  */
 public class Workshop {
-    private int id; // Task ID
-    private String workshopName; // Name of the task
-    private String taskDescription; // Description of the task
-    private int completed; // Flag indicating whether the task is completed or not
+    private int id;
+    private String workshopName;
+    private String workshopDescription;
+    private String date;
+    private String startTime;
+    private String endTime;
+    private int capacity;
+    private float price;
+    private String workshopType;
+    private String createdAt;
+    private String updatedAt;
 
-    // Constructor
+    // Constructors
     public Workshop() {
     }
 
     /**
-     * Create a new task table model object.
+     * Constructor to create a new workshop object with all fields.
      *
-     * @param taskName        The name of the task.
-     * @param taskDescription The description of the task.
-     * @param completed       The completion status of the task.
-     * @return                The new modeled task object.
+     * @param id                   The ID of the workshop.
+     * @param workshopName         The name of the workshop.
+     * @param workshopDescription  The description of the workshop.
+     * @param date                 The date of the workshop.
+     * @param startTime            The start time of the workshop.
+     * @param endTime              The end time of the workshop.
+     * @param capacity             The capacity of the workshop.
+     * @param price                The price of the workshop.
+     * @param workshopType         The type of the workshop.
+     * @param createdAt            The timestamp for creation of the workshop.
+     * @param updatedAt            The timestamp for last update of the workshop.
      */
-    public static Workshop newFromBasic(String taskName, String taskDescription, int completed)
-    {
-        Workshop workshop = new Workshop();
-        workshop.setWorkshopName(taskName);
-        workshop.setTaskDescription(taskDescription);
-        workshop.setCompleted(completed);
-        return workshop;
+    public Workshop(int id, String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String createdAt, String updatedAt) {
+        this.id = id;
+        this.workshopName = workshopName;
+        this.workshopDescription = workshopDescription;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.capacity = capacity;
+        this.price = price;
+        this.workshopType = workshopType;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    /**
-     * Create a new task model object from an existing entry in the database.
-     *
-     * @param id              The ID of the task.
-     * @param taskName        The name of the task.
-     * @param taskDescription The description of the task.
-     * @param completed       The completion status of the task.
-     * @return                The new modeled task object.
-     */
-    public static Workshop newFromInserted(int id, String taskName, String taskDescription, int completed)
-    {
-        Workshop workshop = newFromBasic(taskName, taskDescription, completed);
-        workshop.setId(id);
-        return workshop;
-    }
-
-    // Getters and setters
-
-    /**
-     * Gets the ID of the task.
-     *
-     * @return The task ID.
-     */
+    // Getters and Setters
     public int getId() {
         return id;
     }
 
-    /**
-     * Sets the ID of the task.
-     *
-     * @param id The task ID to set.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Gets the name of the task.
-     *
-     * @return The task name.
-     */
     public String getWorkshopName() {
         return workshopName;
     }
 
-    /**
-     * Sets the name of the task.
-     *
-     * @param workshopName The task name to set.
-     */
     public void setWorkshopName(String workshopName) {
         this.workshopName = workshopName;
     }
 
+    public String getWorkshopDescription() {
+        return workshopDescription;
+    }
+
+    public void setWorkshopDescription(String workshopDescription) {
+        this.workshopDescription = workshopDescription;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getWorkshopType() {
+        return workshopType;
+    }
+
+    public void setWorkshopType(String workshopType) {
+        this.workshopType = workshopType;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Utility methods
+
     /**
-     * Gets the description of the task.
+     * Creates a new workshop object with basic details.
      *
-     * @return The task description.
+     * @param workshopName        The name of the workshop.
+     * @param workshopDescription The description of the workshop.
+     * @param date                The date of the workshop.
+     * @param startTime           The start time of the workshop.
+     * @param endTime             The end time of the workshop.
+     * @param capacity            The capacity of the workshop.
+     * @param price               The price of the workshop.
+     * @param workshopType        The type of the workshop.
+     * @return                    The new workshop object.
      */
-    public String getTaskDescription() {
-        return taskDescription;
+    public static Workshop newFromBasic(String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType) {
+        Workshop workshop = new Workshop();
+        workshop.setWorkshopName(workshopName);
+        workshop.setWorkshopDescription(workshopDescription);
+        workshop.setDate(date);
+        workshop.setStartTime(startTime);
+        workshop.setEndTime(endTime);
+        workshop.setCapacity(capacity);
+        workshop.setPrice(price);
+        workshop.setWorkshopType(workshopType);
+        return workshop;
     }
 
     /**
-     * Sets the description of the task.
+     * Creates a new workshop object from an existing record in the database.
      *
-     * @param taskDescription The task description to set.
+     * @param id                   The ID of the workshop.
+     * @param workshopName         The name of the workshop.
+     * @param workshopDescription  The description of the workshop.
+     * @param date                 The date of the workshop.
+     * @param startTime            The start time of the workshop.
+     * @param endTime              The end time of the workshop.
+     * @param capacity             The capacity of the workshop.
+     * @param price                The price of the workshop.
+     * @param workshopType         The type of the workshop.
+     * @param createdAt            The timestamp for creation of the workshop.
+     * @param updatedAt            The timestamp for last update of the workshop.
+     * @return                     The new workshop object.
      */
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public static Workshop newFromInserted(int id, String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String createdAt, String updatedAt) {
+        Workshop workshop = newFromBasic(workshopName, workshopDescription, date, startTime, endTime, capacity, price, workshopType);
+        workshop.setId(id);
+        workshop.setCreatedAt(createdAt);
+        workshop.setUpdatedAt(updatedAt);
+        return workshop;
     }
 
-    /**
-     * Gets the completion status of the task.
-     *
-     * @return The completion status of the task.
-     */
-    public int getCompleted() {
-        return completed;
-    }
-
-    /**
-     * Sets the completion status of the task.
-     *
-     * @param completed The completion status of the task to set.
-     */
-    public void setCompleted(int completed) {
-        this.completed = completed;
-    }
-
-    /**
-     * Returns a string representation of the task (its name).
-     *
-     * @return The task name.
-     */
     @Override
     public String toString() {
-        return getWorkshopName();
+        return workshopName;
     }
 }

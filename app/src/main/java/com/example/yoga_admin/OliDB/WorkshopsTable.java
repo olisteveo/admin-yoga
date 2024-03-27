@@ -11,21 +11,28 @@ import com.example.yoga_admin.OliDB.Models.Workshop;
 import java.util.ArrayList;
 
 /**
- * Represents a database manager for tasks.
- * Provides various methods for interacting with the tasks table in the database.
+ * Represents a database manager for workshops.
+ * Provides various methods for interacting with the workshops table in the database.
  */
 public class WorkshopsTable extends DB {
 
     protected static final String TABLE_NAME = "workshops";
     protected static final String COLUMN_ID = "id";
-    protected static final String COLUMN_WORKSHOP_NAME = "workshop_name";
-    protected static final String COLUMN_WORKSHOP_DESCRIPTION = "workshop_description";
-    protected static final String COLUMN_COMPLETED = "completed";
+    protected static final String COLUMN_WORKSHOP_NAME = "workshopName";
+    protected static final String COLUMN_WORKSHOP_DESCRIPTION = "workshopDescription";
+    protected static final String COLUMN_DATE = "date";
+    protected static final String COLUMN_START_TIME = "startTime";
+    protected static final String COLUMN_END_TIME = "endTime";
+    protected static final String COLUMN_CAPACITY = "capacity";
+    protected static final String COLUMN_PRICE = "price";
+    protected static final String COLUMN_WORKSHOP_TYPE = "workshopType";
+    protected static final String COLUMN_CREATED_AT = "created_at";
+    protected static final String COLUMN_UPDATED_AT = "updated_at";
     private ArrayList<Workshop> loaded;
     private static WorkshopsTable instance = null;
 
     /**
-     * Constructor for the TasksTable class.
+     * Constructor for the WorkshopsTable class.
      *
      * @param app       The application instance.
      * @param dbName    The name of the database.
@@ -33,9 +40,8 @@ public class WorkshopsTable extends DB {
      */
     public WorkshopsTable(Application app, String dbName, int dbVersion) {
         super(app, dbName, dbVersion);
-        loaded = new ArrayList<Workshop>();
+        loaded = new ArrayList<>();
         Log.d(LOG_TAG, "Yoga DB init");
-
     }
 
     /**
@@ -64,34 +70,36 @@ public class WorkshopsTable extends DB {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        super.onCreate(db);
+        // Define the SQL statement for creating the table
+        String createTableSQL = "CREATE TABLE " + TABLE_NAME + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_WORKSHOP_NAME + " TEXT NOT NULL, " +
+                COLUMN_WORKSHOP_DESCRIPTION + " TEXT DEFAULT '', " +
+                COLUMN_DATE + " DATE NOT NULL, " +
+                COLUMN_START_TIME + " TIME NOT NULL, " +
+                COLUMN_END_TIME + " TIME NOT NULL, " +
+                COLUMN_CAPACITY + " INTEGER NOT NULL, " +
+                COLUMN_PRICE + " REAL NOT NULL, " +
+                COLUMN_WORKSHOP_TYPE + " TEXT NOT NULL, " +
+                COLUMN_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                COLUMN_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+
+        // Execute the SQL statement to create the table
+        db.execSQL(createTableSQL);
     }
 
-    // Method overridden to append custom table column definitions
     @Override
-    protected StringBuilder getCreateTableSQL() {
-        return super.getCreateTableSQL()
-                .append(COLUMN_WORKSHOP_NAME + " TEXT,")
-                .append(COLUMN_WORKSHOP_DESCRIPTION + " TEXT DEFAULT '',")
-                .append(COLUMN_COMPLETED + " INTEGER DEFAULT 0)")
-                // close the opening parenthesis created from the super call that
-                // added the definition of the primary key field
-                .append(')');
-    }
-
-    @Override
-    public String getTableName()
-    {
+    public String getTableName() {
         return TABLE_NAME;
     }
 
     /**
      * Getter for the ID field name
+     *
      * @return the field ID name as a string
      */
     @Override
-    public String getIdFieldName()
-    {
+    public String getIdFieldName() {
         return COLUMN_ID;
     }
 
@@ -101,16 +109,16 @@ public class WorkshopsTable extends DB {
     }
 
     /**
-     * Loads the tasks from the database.
+     * Loads the workshops from the database.
      */
     public void load() {
         loadAllRecords();
     }
 
     /**
-     * Returns the loaded tasks.
+     * Returns the loaded workshops.
      *
-     * @return The loaded tasks.
+     * @return The loaded workshops.
      */
     @Override
     public ArrayList<Workshop> loaded() {
@@ -120,61 +128,97 @@ public class WorkshopsTable extends DB {
     /**
      * Retrieves a model object from a cursor.
      *
-     * @param cursor                    The cursor to retrieve data from.
-     * @return                          Returns the model based task record.
+     * @param cursor The cursor to retrieve data from.
+     * @return Returns the model based workshop record.
      * @throws IllegalArgumentException Returns the zero-based index for the given column name,
-     *                                   or throws IllegalArgumentException if the column doesn't exist.
+     *                                  or throws IllegalArgumentException if the column doesn't exist.
      */
-    protected Workshop getObjectModelFromCursor(Cursor cursor)
-    {
+    protected Workshop getObjectModelFromCursor(Cursor cursor) {
         Workshop workshop = Workshop.newFromInserted(
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WORKSHOP_NAME)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WORKSHOP_DESCRIPTION)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_COMPLETED))
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_TIME)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_END_TIME)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CAPACITY)),
+                cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WORKSHOP_TYPE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CREATED_AT)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_UPDATED_AT))
         );
         return workshop;
     }
 
     @Override
-    protected void addLoadedModelledRecord(Object record)
-    {
+    protected void addLoadedModelledRecord(Object record) {
         this.loaded().add((Workshop) record);
     }
 
+
     /**
-     * Inserts a new task into the database.
+     * Inserts a new workshop into the database.
      *
      * @param workshopName        The name of the yoga session.
      * @param workshopDescription The description of the task.
-     * @param completed       The completion status of the task.
-     * @return                The ID of the inserted task.
+     * @param date                The date of the workshop.
+     * @param startTime           The start time of the workshop.
+     * @param endTime             The end time of the workshop.
+     * @param capacity            The capacity of the workshop.
+     * @param price               The price of the workshop.
+     * @param workshopType        The type of the workshop.
+     * @return The ID of the inserted workshop.
      */
-    public long insertWorkshop(String workshopName, String workshopDescription, int completed) {
+    public long insertWorkshop(String workshopName, String workshopDescription, String date,
+                               String startTime, String endTime, int capacity, float price,
+                               String workshopType) {
+        if (date == null) {
+            Log.e(LOG_TAG, "Date cannot be null. Workshop not inserted.");
+            return -1; // or throw an exception, depending on your error handling strategy
+        }
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_WORKSHOP_NAME, workshopName);
         values.put(COLUMN_WORKSHOP_DESCRIPTION, workshopDescription);
-        values.put(COLUMN_COMPLETED, completed);
-        long id = getWritableDatabase().insert(getTableName(), null, values);
-        Workshop workshop = Workshop.newFromInserted((int) id, workshopName, workshopDescription, completed);
-        workshop.setId((int) id);
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_START_TIME, startTime);
+        values.put(COLUMN_END_TIME, endTime);
+        values.put(COLUMN_CAPACITY, capacity);
+        values.put(COLUMN_PRICE, price);
+        values.put(COLUMN_WORKSHOP_TYPE, workshopType);
+        long id = db.insert(getTableName(), null, values);
         db.close();
         StringBuilder msg = new StringBuilder("Inserted Yoga Workshop - ID ");
-        msg.append(workshop.getId());
+        msg.append(id);
         Log.i(LOG_TAG, msg.toString());
-        loaded.add(0, workshop);
         return id;
     }
 
+    // Inside WorkshopsTable class
+
     /**
-     * Deletes a task from the database by its position in the list.
+     * Deletes a workshop by its position in the list.
      *
-     * @param position The position of the task in the tasks list.
-     * @return         True if the task was successfully deleted, false otherwise.
+     * @param position The position of the workshop in the list.
+     * @return True if the workshop is successfully deleted, false otherwise.
      */
     public boolean deleteByPosition(int position) {
-        return true;
-    }
+        // Check if the list is empty or the position is invalid
+        if (loaded.isEmpty() || position < 0 || position >= loaded.size()) {
+            return false; // Return false indicating failure
+        }
 
+        // Get the ID of the workshop based on its position in the list
+        int workshopId = loaded.get(position).getId();
+
+        SQLiteDatabase db = getWritableDatabase();
+        // Delete the workshop from the database using its ID
+        int rowsDeleted = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(workshopId)});
+        db.close();
+
+        // Return true if at least one row is deleted, indicating successful deletion
+        return rowsDeleted > 0;
+    }
 }
+
