@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextWorkshopName"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="214dp"
             android:hint="@string/workshop_description"
             android:inputType="textMultiLine"
             android:minLines="3" />
@@ -57,36 +57,38 @@
 
         <!-- Label for Workshop Capacity -->
 
+        <!-- Label for Yoga Type -->
+
         <EditText
             android:id="@+id/editTextEndTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextStartTime"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:autofillHints=""
             android:hint="@string/end_time"
             android:inputType="time"
             android:minHeight="48dp"
             android:textColorHint="#37474F" />
 
-        <!-- Label for Yoga Type -->
-
         <TextView
             android:id="@+id/textViewCapacity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Capacity"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintEnd_toEndOf="@id/spinnerCapacity"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="@id/spinnerCapacity" />
+            android:layout_below="@id/spinnerCapacity"
+            android:layout_alignStart="@id/spinnerWorkshopType"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="38dp"
+            android:text="Class Type"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
 
         <Spinner
             android:id="@+id/spinnerCapacity"
-            android:layout_width="353dp"
-            android:layout_height="48dp"
+            android:layout_width="376dp"
+            android:layout_height="52dp"
             android:layout_below="@id/editTextEndTime"
-            android:layout_marginTop="337dp"
+            android:layout_marginTop="303dp"
             android:entries="@array/capacity_options" />
 
         <EditText
@@ -94,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/spinnerCapacity"
-            android:layout_marginTop="-166dp"
+            android:layout_marginTop="-179dp"
             android:hint="@string/price"
             android:inputType="numberDecimal"
             android:minHeight="48dp"
@@ -104,18 +106,19 @@
             android:id="@+id/textViewYogaType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yoga Type"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_below="@id/editTextPrice"
+            android:layout_alignStart="@id/spinnerWorkshopType"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="38dp"
+            android:text="Capacity"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Spinner
             android:id="@+id/spinnerWorkshopType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextPrice"
-            android:layout_marginTop="189dp"
+            android:layout_below="@id/textViewYogaType"
+            android:layout_marginTop="140dp"
             android:minHeight="48dp" />
 
         <Button
@@ -123,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spinnerWorkshopType"
-            android:layout_marginTop="119dp"
+            android:layout_marginTop="63dp"
             android:text="@string/add_workshop" />
 
     </RelativeLayout>

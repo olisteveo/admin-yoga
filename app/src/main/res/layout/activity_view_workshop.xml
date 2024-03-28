@@ -1,10 +1,15 @@
-<!-- activity_view_workshop.xml -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+
+    <!-- Include the layout containing imageButtonView -->
+    <include
+        android:id="@+id/include_image_button_view"
+        layout="@layout/custom_workshop_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <!-- TextView to display Workshop Name -->
     <TextView
@@ -14,8 +19,8 @@
         android:text="Workshop Name"
         android:textSize="18sp"
         android:layout_marginTop="8dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@id/include_image_button_view"
+    android:layout_centerHorizontal="true"/>
 
     <!-- TextView to display Workshop Description -->
     <TextView

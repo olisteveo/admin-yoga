@@ -2,24 +2,19 @@ package com.example.yoga_admin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ViewWorkshopActivity extends AppCompatActivity {
+public class ViewWorkshopDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_workshop);
 
-        // Get the intent that started this activity
+        // Retrieve workshop details from the intent
         Intent intent = getIntent();
-
-        // Extract workshop details from the intent
-        int workshopId = intent.getIntExtra("workshop_id", -1);
         String workshopName = intent.getStringExtra("workshop_name");
         String workshopDescription = intent.getStringExtra("workshop_description");
         String date = intent.getStringExtra("date");
@@ -29,7 +24,7 @@ public class ViewWorkshopActivity extends AppCompatActivity {
         float price = intent.getFloatExtra("price", 0.0f);
         String workshopType = intent.getStringExtra("workshop_type");
 
-        // Display the workshop details in the appropriate TextViews or other views
+        // Display workshop details in corresponding text views
         TextView textViewWorkshopName = findViewById(R.id.textViewWorkshopName);
         textViewWorkshopName.setText(workshopName);
 
@@ -53,25 +48,5 @@ public class ViewWorkshopActivity extends AppCompatActivity {
 
         TextView textViewWorkshopType = findViewById(R.id.textViewWorkshopType);
         textViewWorkshopType.setText(workshopType);
-
-        // Set onClickListener for the image button
-        ImageView imageViewView = findViewById(R.id.imageButtonView);
-        imageViewView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the click event for the eye view image button icon
-                // Navigate to ViewWorkshopDetailsActivity to display detailed workshop information
-                Intent intent = new Intent(ViewWorkshopActivity.this, ViewWorkshopDetailsActivity.class);
-                intent.putExtra("workshop_name", workshopName);
-                intent.putExtra("workshop_description", workshopDescription);
-                intent.putExtra("date", date);
-                intent.putExtra("start_time", startTime);
-                intent.putExtra("end_time", endTime);
-                intent.putExtra("capacity", capacity);
-                intent.putExtra("price", price);
-                intent.putExtra("workshop_type", workshopType);
-                startActivity(intent);
-            }
-        });
     }
 }

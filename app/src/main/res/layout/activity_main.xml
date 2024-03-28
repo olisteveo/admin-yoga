@@ -6,17 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Border View -->
 
     <!-- Add Workshop Button -->
-    <View
-        android:id="@+id/borderView"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/border_color"
+
+    <!-- Search Button -->
+
+    <!-- ListView -->
+
+    <ImageView
+        android:id="@+id/imageViewLotus"
+        android:layout_width="690dp"
+        android:layout_height="163dp"
+        android:src="@drawable/lotus"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.469"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,31 +27,29 @@
         android:id="@+id/btnAddWorkshop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:onClick="navigateToAddWorkshop"
         android:text="@string/add_workshop"
         app:layout_constraintEnd_toStartOf="@id/btnSearch"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/borderView" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewLotus" />
 
-    <!-- Search Button -->
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:text="@string/search_workshop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/btnAddWorkshop"
-        app:layout_constraintTop_toBottomOf="@id/borderView" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewLotus" />
 
-    <!-- ListView -->
     <ListView
         android:id="@+id/listView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="377dp"
+        android:layout_height="408dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
