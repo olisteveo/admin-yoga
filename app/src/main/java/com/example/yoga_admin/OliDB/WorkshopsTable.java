@@ -50,7 +50,7 @@ public class WorkshopsTable extends DB {
      * @param app       The application instance.
      * @param dbName    The name of the database.
      * @param dbVersion The version of the database schema.
-     * @return          The initialised DB instance.
+     * @return The initialised DB instance.
      */
     public static WorkshopsTable initFor(Application app, String dbName, int dbVersion) {
         if (instance == null) {
@@ -66,6 +66,25 @@ public class WorkshopsTable extends DB {
      */
     public static WorkshopsTable getInstance() {
         return instance;
+    }
+
+    // Inside WorkshopsTable class
+
+    /**
+     * Retrieves the ID of the workshop at the specified position in the list.
+     *
+     * @param position The position of the workshop in the list.
+     * @return The ID of the workshop if found, or -1 if the position is invalid.
+     */
+    public int getWorkshopId(int position) {
+        // Check if the position is within the valid range
+        if (position >= 0 && position < loaded.size()) {
+            // Retrieve the ID of the workshop at the specified position
+            return loaded.get(position).getId();
+        } else {
+            // Invalid position, return -1 or throw an exception based on your requirement
+            return -1;
+        }
     }
 
     @Override
@@ -155,38 +174,23 @@ public class WorkshopsTable extends DB {
         this.loaded().add((Workshop) record);
     }
 
-
     /**
      * Inserts a new workshop into the database.
      *
-     * @param workshopName        The name of the yoga session.
-     * @param workshopDescription The description of the task.
-     * @param date                The date of the workshop.
-     * @param startTime           The start time of the workshop.
-     * @param endTime             The end time of the workshop.
-     * @param capacity            The capacity of the workshop.
-     * @param price               The price of the workshop.
-     * @param workshopType        The type of the workshop.
+     * @param workshop The Workshop object to insert into the database.
      * @return The ID of the inserted workshop.
      */
-    public long insertWorkshop(String workshopName, String workshopDescription, String date,
-                               String startTime, String endTime, int capacity, float price,
-                               String workshopType) {
-        if (date == null) {
-            Log.e(LOG_TAG, "Date cannot be null. Workshop not inserted.");
-            return -1; // or throw an exception, depending on your error handling strategy
-        }
-
+    public long insertWorkshop(Workshop workshop) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_WORKSHOP_NAME, workshopName);
-        values.put(COLUMN_WORKSHOP_DESCRIPTION, workshopDescription);
-        values.put(COLUMN_DATE, date);
-        values.put(COLUMN_START_TIME, startTime);
-        values.put(COLUMN_END_TIME, endTime);
-        values.put(COLUMN_CAPACITY, capacity);
-        values.put(COLUMN_PRICE, price);
-        values.put(COLUMN_WORKSHOP_TYPE, workshopType);
+        values.put(COLUMN_WORKSHOP_NAME, workshop.getWorkshopName());
+        values.put(COLUMN_WORKSHOP_DESCRIPTION, workshop.getWorkshopDescription());
+        values.put(COLUMN_DATE, workshop.getDate());
+        values.put(COLUMN_START_TIME, workshop.getStartTime());
+        values.put(COLUMN_END_TIME, workshop.getEndTime());
+        values.put(COLUMN_CAPACITY, workshop.getCapacity());
+        values.put(COLUMN_PRICE, workshop.getPrice());
+        values.put(COLUMN_WORKSHOP_TYPE, workshop.getWorkshopType());
         long id = db.insert(getTableName(), null, values);
         db.close();
         StringBuilder msg = new StringBuilder("Inserted Yoga Workshop - ID ");
@@ -194,8 +198,6 @@ public class WorkshopsTable extends DB {
         Log.i(LOG_TAG, msg.toString());
         return id;
     }
-
-    // Inside WorkshopsTable class
 
     /**
      * Deletes a workshop by its position in the list.
@@ -209,16 +211,24 @@ public class WorkshopsTable extends DB {
             return false; // Return false indicating failure
         }
 
-        // Get the ID of the workshop based on its position in the list
-        int workshopId = loaded.get(position).getId();
+        // Get the ID and name of the workshop based on its position in the list
+        Workshop workshop = loaded.get(position);
+        int workshopId = workshop.getId();
+        String workshopName = workshop.getWorkshopName();
 
         SQLiteDatabase db = getWritableDatabase();
         // Delete the workshop from the database using its ID
         int rowsDeleted = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(workshopId)});
         db.close();
 
+        // Log whether the deletion was successful or not
+        if (rowsDeleted > 0) {
+            Log.i(LOG_TAG, "Deleted workshop: " + workshopName + ", ID " + workshopId + ", Position " + position);
+        } else {
+            Log.e(LOG_TAG, "Failed to delete workshop: " + workshopName + ", ID " + workshopId + ", Position " + position);
+        }
+
         // Return true if at least one row is deleted, indicating successful deletion
         return rowsDeleted > 0;
     }
 }
-

@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:src="@drawable/ic_delete_custom" />
+        android:src="@drawable/ic_delete_custom"
+        android:onClick="deleteWorkshop" /> <!-- Set onClick attribute to deleteWorkshop -->
 
 </LinearLayout>

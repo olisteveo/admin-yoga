@@ -1,0 +1,97 @@
+<!-- activity_view_workshop.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- TextView to display Workshop Name -->
+    <TextView
+        android:id="@+id/textViewWorkshopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workshop Name"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display Workshop Description -->
+    <TextView
+        android:id="@+id/textViewWorkshopDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workshop Description"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewWorkshopName"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display Date -->
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewWorkshopDescription"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display Start Time -->
+    <TextView
+        android:id="@+id/textViewStartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Time"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewDate"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display End Time -->
+    <TextView
+        android:id="@+id/textViewEndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Time"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewStartTime"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display Capacity -->
+    <TextView
+        android:id="@+id/textViewCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Capacity"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewEndTime"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display Price -->
+    <TextView
+        android:id="@+id/textViewPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewCapacity"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- TextView to display Workshop Type -->
+    <TextView
+        android:id="@+id/textViewWorkshopType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workshop Type"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/textViewPrice"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
