@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Universal Yoga</string>
     <string name="workshop_description">Workshop Description</string>
-    <string name="add_workshop">Add Workshop</string>
+    <string name="add_workshop">Add Class</string>
+    <string name="search_workshop">Search</string>
     <string name="edit_workshop">Edit Workshop</string>
     <string name="workshop_name">Workshop Name</string>
     <string name="date">Date</string>

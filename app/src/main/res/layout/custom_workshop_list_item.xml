@@ -23,7 +23,7 @@
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
         app:srcCompat="@android:drawable/ic_menu_view"
-        app:tint="#1A3E1B" />
+        app:tint="#0E230F" />
 
     <ImageButton
         android:id="@+id/imageButtonDelete"

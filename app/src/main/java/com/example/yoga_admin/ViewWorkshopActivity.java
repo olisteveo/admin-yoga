@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yoga_admin.R;
+
 public class ViewWorkshopActivity extends AppCompatActivity {
 
     @Override
@@ -31,7 +33,7 @@ public class ViewWorkshopActivity extends AppCompatActivity {
         // Display the workshop details in the appropriate TextViews or other views
         TextView textViewWorkshopName = findViewById(R.id.textViewWorkshopName);
         textViewWorkshopName.setText(workshopName);
-        // Display other details in corresponding views
+
         TextView textViewWorkshopDescription = findViewById(R.id.textViewWorkshopDescription);
         textViewWorkshopDescription.setText(workshopDescription);
 

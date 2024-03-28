@@ -49,6 +49,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh data or perform any necessary operations upon resuming the activity
+        fetchDataAndUpdateUI();
+    }
+
+    @Override
+    protected void onPause() {
+        // Clean up resources or pause ongoing operations when the activity is paused
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Release resources or perform final cleanup before the activity is destroyed
+        super.onDestroy();
+    }
+
+    private void fetchDataAndUpdateUI() {
+        // Retrieve data from the database or other sources
+        // Update the UI to reflect the latest data
+    }
+
     private void editOrDeleteWorkshop(final int position) {
         final Workshop workshop = workshopList.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -105,24 +129,30 @@ public class MainActivity extends AppCompatActivity {
             float price = data.getFloatExtra("price", 0.0f);
             String workshopType = data.getStringExtra("workshopType");
 
-            Workshop workshop = null;
+            // Create a new Workshop object and set its properties
+            Workshop workshop = new Workshop();
+            workshop.setWorkshopName(workshopName);
+            workshop.setWorkshopDescription(workshopDescription);
+            workshop.setDate(date);
+            workshop.setStartTime(startTime);
+            workshop.setEndTime(endTime);
+            workshop.setCapacity(capacity);
+            workshop.setPrice(price);
+            workshop.setWorkshopType(workshopType);
+
+            // Check if the workshop was successfully inserted into the database
             long insertedId = workshopsDB.insertWorkshop(workshop);
-
             if (insertedId != -1) {
-                workshop = new Workshop();
+                // Set the ID of the workshop after it's inserted into the database
                 workshop.setId((int) insertedId);
-                workshop.setWorkshopName(workshopName);
-                workshop.setWorkshopDescription(workshopDescription);
-                workshop.setDate(date);
-                workshop.setStartTime(startTime);
-                workshop.setEndTime(endTime);
-                workshop.setCapacity(capacity);
-                workshop.setPrice(price);
-                workshop.setWorkshopType(workshopType);
 
+                // Add the new workshop to the list and notify the adapter
                 workshopList.add(workshop);
                 adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(this, "Failed to add workshop", Toast.LENGTH_SHORT).show();
             }
         }
     }
 }
+
