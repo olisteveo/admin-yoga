@@ -11,6 +11,14 @@
     <string name="end_time">End Time</string>
     <string name="yoga_type">Yoga Type</string>
     <string name="capacity">Capacity</string>
+    <string-array name="teacher_names">
+        <item>Kevin</item>
+        <item>Muhammad</item>
+        <item>Claire</item>
+        <item>Thomas</item>
+        <item>Julie</item>
+        <item>Michael</item>
+    </string-array>
     <string-array name="yoga_types_array">
         <item>Vinyasa yoga</item>
         <item>Hatha yoga</item>
@@ -53,5 +61,4 @@
         <item>32</item>
         <item>33</item>
     </string-array>
-
 </resources>

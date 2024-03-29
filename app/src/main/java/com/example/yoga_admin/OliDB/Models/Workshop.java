@@ -13,6 +13,7 @@ public class Workshop {
     private int capacity;
     private float price;
     private String workshopType;
+    private String teacher; // New field for teacher
     private String createdAt;
     private String updatedAt;
 
@@ -32,10 +33,11 @@ public class Workshop {
      * @param capacity             The capacity of the workshop.
      * @param price                The price of the workshop.
      * @param workshopType         The type of the workshop.
+     * @param teacher              The teacher of the workshop. (New field)
      * @param createdAt            The timestamp for creation of the workshop.
      * @param updatedAt            The timestamp for last update of the workshop.
      */
-    public Workshop(int id, String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String createdAt, String updatedAt) {
+    public Workshop(int id, String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String teacher, String createdAt, String updatedAt) {
         this.id = id;
         this.workshopName = workshopName;
         this.workshopDescription = workshopDescription;
@@ -45,6 +47,7 @@ public class Workshop {
         this.capacity = capacity;
         this.price = price;
         this.workshopType = workshopType;
+        this.teacher = teacher;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -122,6 +125,14 @@ public class Workshop {
         this.workshopType = workshopType;
     }
 
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -151,9 +162,10 @@ public class Workshop {
      * @param capacity            The capacity of the workshop.
      * @param price               The price of the workshop.
      * @param workshopType        The type of the workshop.
+     * @param teacher             The teacher of the workshop.
      * @return                    The new workshop object.
      */
-    public static Workshop newFromBasic(String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType) {
+    public static Workshop newFromBasic(String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String teacher) {
         Workshop workshop = new Workshop();
         workshop.setWorkshopName(workshopName);
         workshop.setWorkshopDescription(workshopDescription);
@@ -163,32 +175,36 @@ public class Workshop {
         workshop.setCapacity(capacity);
         workshop.setPrice(price);
         workshop.setWorkshopType(workshopType);
+        workshop.setTeacher(teacher);
         return workshop;
     }
 
-    /**
-     * Creates a new workshop object from an existing record in the database.
-     *
-     * @param id                   The ID of the workshop.
-     * @param workshopName         The name of the workshop.
-     * @param workshopDescription  The description of the workshop.
-     * @param date                 The date of the workshop.
-     * @param startTime            The start time of the workshop.
-     * @param endTime              The end time of the workshop.
-     * @param capacity             The capacity of the workshop.
-     * @param price                The price of the workshop.
-     * @param workshopType         The type of the workshop.
-     * @param createdAt            The timestamp for creation of the workshop.
-     * @param updatedAt            The timestamp for last update of the workshop.
-     * @return                     The new workshop object.
-     */
-    public static Workshop newFromInserted(int id, String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String createdAt, String updatedAt) {
-        Workshop workshop = newFromBasic(workshopName, workshopDescription, date, startTime, endTime, capacity, price, workshopType);
-        workshop.setId(id);
-        workshop.setCreatedAt(createdAt);
-        workshop.setUpdatedAt(updatedAt);
-        return workshop;
-    }
+/**
+ * Creates a new workshop object from an existing record in the database.
+ *
+ * @param id                   The ID of the workshop.
+ * @param workshopName         The
+ * @param id                   The ID of the workshop.
+ * @param workshopName         The name of the workshop.
+ * @param workshopDescription  The description of the workshop.
+ * @param date                 The date of the workshop.
+ * @param startTime            The start time of the workshop.
+ * @param endTime              The end time of the workshop.
+ * @param capacity             The capacity of the workshop.
+ * @param price                The price of the workshop.
+ * @param workshopType         The type of the workshop.
+ * @param teacher              The teacher of the workshop.
+ * @param createdAt            The timestamp for creation of the workshop.
+ * @param updatedAt            The timestamp for last update of the workshop.
+ * @return                     The new workshop object.
+ */
+public static Workshop newFromInserted(int id, String workshopName, String workshopDescription, String date, String startTime, String endTime, int capacity, float price, String workshopType, String teacher, String createdAt, String updatedAt) {
+    Workshop workshop = newFromBasic(workshopName, workshopDescription, date, startTime, endTime, capacity, price, workshopType, teacher);
+    workshop.setId(id);
+    workshop.setCreatedAt(createdAt);
+    workshop.setUpdatedAt(updatedAt);
+    return workshop;
+}
 
     @Override
     public String toString() {

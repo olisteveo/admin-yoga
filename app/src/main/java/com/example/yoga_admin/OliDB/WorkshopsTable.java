@@ -26,6 +26,7 @@ public class WorkshopsTable extends DB {
     protected static final String COLUMN_CAPACITY = "capacity";
     protected static final String COLUMN_PRICE = "price";
     protected static final String COLUMN_WORKSHOP_TYPE = "workshopType";
+    protected static final String COLUMN_TEACHER = "teacher"; // New column for teacher
     protected static final String COLUMN_CREATED_AT = "created_at";
     protected static final String COLUMN_UPDATED_AT = "updated_at";
     private ArrayList<Workshop> loaded;
@@ -100,6 +101,7 @@ public class WorkshopsTable extends DB {
                 COLUMN_CAPACITY + " INTEGER NOT NULL, " +
                 COLUMN_PRICE + " REAL NOT NULL, " +
                 COLUMN_WORKSHOP_TYPE + " TEXT NOT NULL, " +
+                COLUMN_TEACHER + " TEXT, " + // New column for teacher
                 COLUMN_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                 COLUMN_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
 
@@ -125,6 +127,7 @@ public class WorkshopsTable extends DB {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onUpgrade(db, oldVersion, newVersion);
+        // Add your specific schema migration logic here if needed
     }
 
     /**
@@ -163,6 +166,7 @@ public class WorkshopsTable extends DB {
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CAPACITY)),
                 cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WORKSHOP_TYPE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TEACHER)), // Retrieve teacher
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CREATED_AT)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_UPDATED_AT))
         );
@@ -191,6 +195,7 @@ public class WorkshopsTable extends DB {
         values.put(COLUMN_CAPACITY, workshop.getCapacity());
         values.put(COLUMN_PRICE, workshop.getPrice());
         values.put(COLUMN_WORKSHOP_TYPE, workshop.getWorkshopType());
+        values.put(COLUMN_TEACHER, workshop.getTeacher());
         long id = db.insert(getTableName(), null, values);
         db.close();
         StringBuilder msg = new StringBuilder("Inserted Yoga Workshop - ID ");

@@ -31,6 +31,8 @@ public class AddWorkshopActivity extends AppCompatActivity {
     private EditText editTextEndTime;
     private Spinner spinnerCapacity;
     private Spinner spinnerWorkshopType;
+    private Spinner spinnerTeacher;
+
     private EditText editTextPrice;
 
     @Override
@@ -46,7 +48,14 @@ public class AddWorkshopActivity extends AppCompatActivity {
         editTextEndTime = findViewById(R.id.editTextEndTime);
         spinnerCapacity = findViewById(R.id.spinnerCapacity);
         editTextPrice = findViewById(R.id.editTextPrice);
-        spinnerWorkshopType = findViewById(R.id.spinnerWorkshopType); // Initialize spinner for workshop type
+        spinnerWorkshopType = findViewById(R.id.spinnerWorkshopType);
+        spinnerTeacher = findViewById(R.id.spinnerTeacher);
+
+        // Set up Spinner for teacher selection
+        ArrayAdapter<CharSequence> teacherAdapter = ArrayAdapter.createFromResource(this,
+                R.array.teacher_names, android.R.layout.simple_spinner_item);
+        teacherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTeacher.setAdapter(teacherAdapter);
 
         // Set up Spinner for capacity
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -93,6 +102,8 @@ public class AddWorkshopActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     // Method to show DatePickerDialog
     private void showDatePickerDialog() {
@@ -143,16 +154,17 @@ public class AddWorkshopActivity extends AppCompatActivity {
     }
 
     // Method to add the workshop
-    // Method to add the workshop
     private void addWorkshop() {
+        // Get all the input values
         String workshopName = editTextworkshopName.getText().toString().trim();
         String workshopDescription = editTextworkshopDescription.getText().toString().trim();
         String date = editTextDate.getText().toString().trim();
         String startTime = editTextStartTime.getText().toString().trim();
         String endTime = editTextEndTime.getText().toString().trim();
         String capacity = spinnerCapacity.getSelectedItem().toString();
-        String workshopType = spinnerWorkshopType.getSelectedItem().toString(); // Retrieve workshop type
+        String workshopType = spinnerWorkshopType.getSelectedItem().toString();
         String priceString = editTextPrice.getText().toString().trim();
+        String selectedTeacher = spinnerTeacher.getSelectedItem().toString();
 
         // Check if all required fields are filled
         if (!workshopName.isEmpty() && !workshopDescription.isEmpty() && !date.isEmpty() &&
@@ -161,16 +173,23 @@ public class AddWorkshopActivity extends AppCompatActivity {
                 float price = Float.parseFloat(priceString);
                 // Check if price is greater than zero
                 if (price > 0) {
-                    // Pass data back to the MainActivity
+                    // Create an intent to pass back to MainActivity
                     Intent intent = new Intent();
+                    // Add all data as intent extras
                     intent.putExtra("workshopName", workshopName);
                     intent.putExtra("workshopDescription", workshopDescription);
                     intent.putExtra("date", date);
                     intent.putExtra("startTime", startTime);
                     intent.putExtra("endTime", endTime);
                     intent.putExtra("capacity", capacity);
-                    intent.putExtra("workshopType", workshopType); // Include workshop type in intent
+                    intent.putExtra("workshopType", workshopType);
                     intent.putExtra("price", price);
+                    intent.putExtra("teacher", selectedTeacher);
+
+                    // Log the intent extras
+                    Log.d("AddWorkshopActivity", "Intent extras: " + intent.getExtras().toString());
+
+                    // Set the result and finish the activity
                     setResult(RESULT_OK, intent);
                     finish(); // Finish the activity and return to MainActivity
                 } else {

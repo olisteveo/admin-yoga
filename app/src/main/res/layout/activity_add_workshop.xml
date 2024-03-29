@@ -121,12 +121,31 @@
             android:layout_marginTop="140dp"
             android:minHeight="48dp" />
 
+        <TextView
+            android:id="@+id/textViewTeacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerWorkshopType"
+            android:layout_alignStart="@id/spinnerTeacher"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="38dp"
+            android:text="Class Teacher"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Spinner
+            android:id="@+id/spinnerTeacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerWorkshopType"
+            android:layout_marginTop="74dp"
+            android:minHeight="48dp" />
+
         <Button
             android:id="@+id/buttonAddWorkshop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spinnerWorkshopType"
-            android:layout_marginTop="63dp"
+            android:layout_marginTop="160dp"
             android:text="@string/add_workshop" />
 
     </RelativeLayout>

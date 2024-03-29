@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             int capacity = data.getIntExtra("capacity", 0);
             float price = data.getFloatExtra("price", 0.0f);
             String workshopType = data.getStringExtra("workshopType");
+            String teacher = data.getStringExtra("teacher");
 
             // Create a new Workshop object and set its properties
             Workshop workshop = new Workshop();
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
             workshop.setCapacity(capacity);
             workshop.setPrice(price);
             workshop.setWorkshopType(workshopType);
+            workshop.setTeacher(teacher);
 
             // Check if the workshop was successfully inserted into the database
             long insertedId = workshopsDB.insertWorkshop(workshop);
