@@ -85,8 +85,8 @@
 
         <Spinner
             android:id="@+id/spinnerCapacity"
-            android:layout_width="376dp"
-            android:layout_height="52dp"
+            android:layout_width="wrap_content"
+            android:layout_height="53dp"
             android:layout_below="@id/editTextEndTime"
             android:layout_marginTop="303dp"
             android:entries="@array/capacity_options" />
@@ -115,7 +115,7 @@
 
         <Spinner
             android:id="@+id/spinnerWorkshopType"
-            android:layout_width="match_parent"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewYogaType"
             android:layout_marginTop="140dp"
@@ -134,7 +134,7 @@
 
         <Spinner
             android:id="@+id/spinnerTeacher"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spinnerWorkshopType"
             android:layout_marginTop="74dp"

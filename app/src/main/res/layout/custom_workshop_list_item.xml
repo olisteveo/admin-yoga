@@ -1,8 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="16dp">
 
     <!-- Workshop name -->
@@ -13,29 +12,88 @@
         android:layout_weight="1"
         android:textAppearance="?android:textAppearanceMedium" />
 
+    <!-- Class Type -->
+    <TextView
+        android:id="@+id/textViewClassType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Class Type: "
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/textViewWorkshopName"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewWorkshopType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/textViewWorkshopName"
+        android:layout_toEndOf="@id/textViewClassType"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Teacher -->
+    <TextView
+        android:id="@+id/textViewTeacherLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teacher: "
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/textViewWorkshopType"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewTeacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/textViewWorkshopType"
+        android:layout_toEndOf="@id/textViewTeacherLabel"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/textViewDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: "
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/textViewTeacher"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/textViewTeacher"
+        android:layout_toEndOf="@id/textViewDateLabel"
+        android:layout_marginTop="8dp"/>
+
     <!-- Delete button -->
-    <ImageButton
-        android:id="@+id/imageButtonView"
-        android:layout_width="52dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:layout_weight="1"
-        android:background="@color/border_color"
-        android:backgroundTint="@color/border_color"
-        app:srcCompat="@android:drawable/ic_menu_view"
-        app:tint="#0E230F" />
-
-
     <ImageButton
         android:id="@+id/imageButtonDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="deleteWorkshop"
         android:src="@android:drawable/ic_delete"
         app:tint="#1A3E1B" />
 
-</LinearLayout>
+    <!-- View button -->
+    <ImageButton
+        android:id="@+id/imageButtonView"
+        android:layout_width="52dp"
+        android:layout_height="43dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="17dp"
+        android:layout_toStartOf="@id/imageButtonDelete"
+        android:background="@color/border_color"
+        android:backgroundTint="@color/border_color"
+        android:onClick="onViewButtonClick"
+        app:srcCompat="@android:drawable/ic_menu_view"
+        app:tint="#0E230F" />
+
+</RelativeLayout>

@@ -31,7 +31,11 @@ public class WorkshopAdapter extends ArrayAdapter<Workshop> {
             convertView = inflater.inflate(R.layout.custom_workshop_list_item, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.textViewWorkshopName = convertView.findViewById(R.id.textViewWorkshopName);
+            viewHolder.textViewWorkshopType = convertView.findViewById(R.id.textViewWorkshopType);
+            viewHolder.textViewTeacher = convertView.findViewById(R.id.textViewTeacher);
+            viewHolder.textViewDate = convertView.findViewById(R.id.textViewDate);
             viewHolder.imageButtonDelete = convertView.findViewById(R.id.imageButtonDelete);
+            viewHolder.imageButtonView = convertView.findViewById(R.id.imageButtonView); // Add this line
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -39,15 +43,31 @@ public class WorkshopAdapter extends ArrayAdapter<Workshop> {
 
         Workshop workshop = workshops.get(position);
         viewHolder.textViewWorkshopName.setText(workshop.getWorkshopName());
+        viewHolder.textViewWorkshopType.setText(workshop.getWorkshopType());
+        viewHolder.textViewTeacher.setText(workshop.getTeacher());
+        viewHolder.textViewDate.setText(workshop.getDate());
 
         // Set tag for the delete button
         viewHolder.imageButtonDelete.setTag(position);
+
+        // Set click listener for the view button
+        viewHolder.imageButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event for view button here
+                // For example, you can open a new activity to view workshop details
+            }
+        });
 
         return convertView;
     }
 
     static class ViewHolder {
         TextView textViewWorkshopName;
+        TextView textViewWorkshopType;
+        TextView textViewTeacher;
+        TextView textViewDate;
         ImageButton imageButtonDelete;
+        ImageButton imageButtonView;
     }
 }

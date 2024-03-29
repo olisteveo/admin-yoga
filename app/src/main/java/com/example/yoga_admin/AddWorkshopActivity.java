@@ -32,7 +32,6 @@ public class AddWorkshopActivity extends AppCompatActivity {
     private Spinner spinnerCapacity;
     private Spinner spinnerWorkshopType;
     private Spinner spinnerTeacher;
-
     private EditText editTextPrice;
 
     @Override
@@ -102,8 +101,6 @@ public class AddWorkshopActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     // Method to show DatePickerDialog
     private void showDatePickerDialog() {
@@ -202,5 +199,4 @@ public class AddWorkshopActivity extends AppCompatActivity {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

@@ -3,7 +3,7 @@ package com.example.yoga_admin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,12 +54,12 @@ public class ViewWorkshopActivity extends AppCompatActivity {
         TextView textViewWorkshopType = findViewById(R.id.textViewWorkshopType);
         textViewWorkshopType.setText(workshopType);
 
-        // Set onClickListener for the image button
-        ImageView imageViewView = findViewById(R.id.imageButtonView);
-        imageViewView.setOnClickListener(new View.OnClickListener() {
+// Set onClickListener for the image button
+        ImageButton imageButtonView = findViewById(R.id.imageButtonView);
+        imageButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle the click event for the eye view image button icon
+                // Handle the click event for the view image button
                 // Navigate to ViewWorkshopDetailsActivity to display detailed workshop information
                 Intent intent = new Intent(ViewWorkshopActivity.this, ViewWorkshopDetailsActivity.class);
                 intent.putExtra("workshop_name", workshopName);

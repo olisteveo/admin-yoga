@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "289783316734",
+    "project_id": "universal-yoga-e0f17",
+    "storage_bucket": "universal-yoga-e0f17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289783316734:android:6d78028b2e151b06b8a5af",
+        "android_client_info": {
+          "package_name": "com.example.yoga_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBkU-1hIjRbSBATCCOnkpLO5GVzb8JAaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
