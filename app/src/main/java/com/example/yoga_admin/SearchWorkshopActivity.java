@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.yoga_admin.OliDB.Models.Workshop;
+import com.example.yoga_admin.OliDB.WorkshopsTable;
 import com.example.yoga_admin.adapters.WorkshopAdapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class SearchWorkshopActivity extends AppCompatActivity {
     private EditText editTextSearch;
     private EditText editTextDate;
     private Button buttonSearch;
+    private TextView textViewNoResults;
+    private WorkshopsTable workshopsDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,17 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         editTextDate = findViewById(R.id.editTextDate);
         buttonSearch = findViewById(R.id.buttonSearch);
 
+        textViewNoResults = findViewById(R.id.textViewNoResults);
+        textViewNoResults.setVisibility(View.GONE);
+
         // Initialise workshop list
         workshopList = new ArrayList<>();
 
         // Initialise adapter
         adapter = new WorkshopAdapter(this, workshopList);
         listView.setAdapter(adapter);
+
+        workshopsDB = WorkshopsTable.getInstance();
 
         // Set up text watcher for search EditText
         editTextSearch.addTextChangedListener(new TextWatcher() {
@@ -80,17 +88,17 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         });
     }
 
-    // Method to filter workshops based on the entered text and selected date
+    // Method to filter workshops based on the entered text and/or selected date
     private void filterWorkshops(String searchText, String selectedDate) {
         Log.d("Filter", "Search Text: " + searchText);
         Log.d("Filter", "Selected Date: " + selectedDate);
         List<Workshop> filteredList = new ArrayList<>();
-        for (Workshop workshop : workshopList) {
+        for (Workshop workshop : workshopsDB.loaded()) {
             // Perform case-insensitive search on teacher name
             boolean teacherMatches = workshop.getTeacher().toLowerCase().contains(searchText.toLowerCase());
             boolean dateMatches = workshop.getDate().equals(selectedDate);
             Log.d("Filter", "Teacher: " + workshop.getTeacher() + ", Date: " + workshop.getDate());
-            if (teacherMatches && dateMatches) {
+            if (teacherMatches || dateMatches) {
                 filteredList.add(workshop);
             }
         }
@@ -98,9 +106,10 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         adapter.clear();
         adapter.addAll(filteredList);
         adapter.notifyDataSetChanged();
-
+        StringBuilder log = new StringBuilder("Count: ");
+        log.append(workshopList.size());
         // Update visibility of TextView based on filtered list size
-        TextView textViewNoResults = findViewById(R.id.textViewNoResults);
+        Log.d("Filtered", log.toString() );
         if (filteredList.isEmpty()) {
             textViewNoResults.setVisibility(View.VISIBLE);
         } else {
