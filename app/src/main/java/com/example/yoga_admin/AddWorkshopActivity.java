@@ -1,7 +1,6 @@
 // AddworkshopActivity.java
 package com.example.yoga_admin;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -24,8 +23,8 @@ import java.util.Locale;
 
 public class AddWorkshopActivity extends AppCompatActivity {
 
-    private EditText editTextworkshopName;
-    private EditText editTextworkshopDescription;
+    private EditText editTextWorkshopName;
+    private EditText editTextWorkshopDescription;
     private EditText editTextDate;
     private EditText editTextStartTime;
     private EditText editTextEndTime;
@@ -39,9 +38,9 @@ public class AddWorkshopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_workshop);
 
-        // Initialize views
-        editTextworkshopName = findViewById(R.id.editTextWorkshopName);
-        editTextworkshopDescription = findViewById(R.id.editTextWorkshopDescription);
+        // Initialise views
+        editTextWorkshopName = findViewById(R.id.editTextWorkshopName);
+        editTextWorkshopDescription = findViewById(R.id.editTextWorkshopDescription);
         editTextDate = findViewById(R.id.editTextDate);
         editTextStartTime = findViewById(R.id.editTextStartTime);
         editTextEndTime = findViewById(R.id.editTextEndTime);
@@ -130,7 +129,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    // Method to show TimePickerDialog
+    // Method to show the TimePickerDialog
     private void showTimePickerDialog(final EditText editText) {
         // Get current time
         Calendar calendar = Calendar.getInstance();
@@ -153,8 +152,8 @@ public class AddWorkshopActivity extends AppCompatActivity {
     // Method to add the workshop
     private void addWorkshop() {
         // Get all the input values
-        String workshopName = editTextworkshopName.getText().toString().trim();
-        String workshopDescription = editTextworkshopDescription.getText().toString().trim();
+        String workshopName = editTextWorkshopName.getText().toString().trim();
+        String workshopDescription = editTextWorkshopDescription.getText().toString().trim();
         String date = editTextDate.getText().toString().trim();
         String startTime = editTextStartTime.getText().toString().trim();
         String endTime = editTextEndTime.getText().toString().trim();
@@ -163,14 +162,14 @@ public class AddWorkshopActivity extends AppCompatActivity {
         String priceString = editTextPrice.getText().toString().trim();
         String selectedTeacher = spinnerTeacher.getSelectedItem().toString();
 
-        // Check if all required fields are filled
+        // Check if all the required fields are filled
         if (!workshopName.isEmpty() && !workshopDescription.isEmpty() && !date.isEmpty() &&
                 !startTime.isEmpty() && !endTime.isEmpty() && !capacity.isEmpty() && !priceString.isEmpty()) {
             try {
                 float price = Float.parseFloat(priceString);
                 // Check if price is greater than zero
                 if (price > 0) {
-                    // Create an intent to pass back to MainActivity
+                    // Create an intent to pass back to the MainActivity
                     Intent intent = new Intent();
                     // Add all data as intent extras
                     intent.putExtra("workshopName", workshopName);
@@ -189,6 +188,9 @@ public class AddWorkshopActivity extends AppCompatActivity {
                     // Set the result and finish the activity
                     setResult(RESULT_OK, intent);
                     finish(); // Finish the activity and return to MainActivity
+
+                    // Show a toast indicating the workshop was successfully added
+                    Toast.makeText(this, workshopName + " added successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
                 }
@@ -199,4 +201,5 @@ public class AddWorkshopActivity extends AppCompatActivity {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

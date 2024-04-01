@@ -83,7 +83,7 @@ public class WorkshopsTable extends DB {
             // Retrieve the ID of the workshop at the specified position
             return loaded.get(position).getId();
         } else {
-            // Invalid position, return -1 or throw an exception based on your requirement
+            // Invalid position, return -1 or throw an exception
             return -1;
         }
     }
@@ -127,7 +127,6 @@ public class WorkshopsTable extends DB {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onUpgrade(db, oldVersion, newVersion);
-        // Add your specific schema migration logic here if needed
     }
 
     /**
@@ -198,9 +197,20 @@ public class WorkshopsTable extends DB {
         values.put(COLUMN_TEACHER, workshop.getTeacher());
         long id = db.insert(getTableName(), null, values);
         db.close();
+
+        // Build the log message showing all details stored in db
         StringBuilder msg = new StringBuilder("Inserted Yoga Workshop - ID ");
         msg.append(id);
+        msg.append(", Workshop Name: ").append(workshop.getWorkshopName());
+        msg.append(", Date: ").append(workshop.getDate());
+        msg.append(", Start Time: ").append(workshop.getStartTime());
+        msg.append(", End Time: ").append(workshop.getEndTime());
+        msg.append(", Capacity: ").append(workshop.getCapacity());
+        msg.append(", Price: ").append(workshop.getPrice());
+        msg.append(", Workshop Type: ").append(workshop.getWorkshopType());
+        msg.append(", Teacher: ").append(workshop.getTeacher());
         Log.i(LOG_TAG, msg.toString());
+
         return id;
     }
 

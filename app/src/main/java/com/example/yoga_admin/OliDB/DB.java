@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Represents a database manager for tasks.
- * Provides methods for interacting with the tasks table in the database.
+ * Provides methods for interacting with the workshops table in the database.
  */
 public class DB extends DBM {
 
@@ -102,16 +102,16 @@ public class DB extends DBM {
 
 
     /**
-     * Loads tasks from the database.
+     * Loads the records from the database.
      */
     public void load() {
         loadAllRecords();
     }
 
     /**
-     * Returns the loaded tasks.
+     * Returns the loaded yoga workshops.
      *
-     * @return The loaded tasks.
+     * @return The loaded workshops.
      */
     public ArrayList loaded() {
         return loaded;
@@ -128,28 +128,28 @@ public class DB extends DBM {
     }
 
     /**
-     * Retrieves all tasks from the database.
+     * Retrieves all workshops from the database.
      *
-     * @return An ArrayList containing all tasks retrieved from the database.
+     * @return An ArrayList containing all workshops retrieved from the database.
      */
     public void loadAllRecords() {
         // Get a writable database instance
         SQLiteDatabase db = getReadableDatabase();
 
-        // Execute a raw query to select all rows from the tasks table, ordered by ID in descending order
+        // Execute a raw query to select all rows from the workshops table, ordered by ID in descending order
         Cursor cursor = db.rawQuery(getLoadRecordsSQL(), null);
 
-        // Log a message indicating that all tasks are being loaded from the database
+        // Log a message indicating that all workshop records are being loaded from the database
         Log.i(LOG_TAG, "Loading all records");
 
-        // Initialize a counter to keep track of the position of each task in the list
+        // Initialise a counter to keep track of the position of each workshop in the list
         int counter = 0;
 
         // Check if the cursor is not null and move it to the first row
         if (cursor != null && cursor.moveToFirst()) {
             // Iterate over the rows in the cursor
             do {
-                // Add the task to the task list
+                // Add the workshop to the workshop list
                 addLoadedModelledRecord(getObjectModelFromCursor(cursor));
             } while (cursor.moveToNext()); // Move the cursor to the next row
             cursor.close(); // Close the cursor
@@ -157,7 +157,7 @@ public class DB extends DBM {
 
         db.close(); // Close the database connection
 
-        // Log a message indicating the number of tasks loaded from the database
+        // Log a message indicating the number of records loaded from the database
         StringBuilder msg = new StringBuilder();
         msg.append(this.loaded().size());
         msg.append(" records loaded");

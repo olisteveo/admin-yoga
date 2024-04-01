@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.yoga_admin">
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddWorkshopActivity" android:parentActivityName=".MainActivity" />
-
+        <activity android:name=".SearchWorkshopActivity" />
+        <activity android:name=".ViewWorkshopActivity" />
+        <activity android:name=".ViewWorkshopDetailsActivity" />
     </application>
 
 </manifest>

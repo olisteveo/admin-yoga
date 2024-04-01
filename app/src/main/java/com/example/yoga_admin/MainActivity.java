@@ -30,49 +30,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialise workshop list and adapter
         workshopList = new ArrayList<>();
         adapter = new WorkshopAdapter(this, workshopList);
 
+        // Set adapter for the ListView
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
+        // Initialise the workshops database and load data
         workshopsDB = WorkshopsTable.initFor(getApplication(), "workshops_db", 1);
         workshopsDB.load();
         workshopList.addAll(workshopsDB.loaded());
         adapter.notifyDataSetChanged();
 
+        // Set item click listener for the ListView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 editOrDeleteWorkshop(position);
             }
         });
+
+        // Set the click listener for the search button
+        findViewById(R.id.btnSearch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToSearchWorkshop();
+            }
+        });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Refresh data or perform any necessary operations upon resuming the activity
-        fetchDataAndUpdateUI();
+    // The method to navigate to SearchWorkshopActivity
+    private void navigateToSearchWorkshop() {
+        Intent intent = new Intent(this, SearchWorkshopActivity.class);
+        startActivity(intent);
     }
 
-    @Override
-    protected void onPause() {
-        // Clean up resources or pause ongoing operations when the activity is paused
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        // Release resources or perform final cleanup before the activity is destroyed
-        super.onDestroy();
-    }
-
-    private void fetchDataAndUpdateUI() {
-        // Retrieve data from the database or other sources
-        // Update the UI to reflect the latest data
-    }
-
+    // Method to handle the editing or deleting of a workshop
     private void editOrDeleteWorkshop(final int position) {
         final Workshop workshop = workshopList.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -97,16 +92,19 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    // Method to handle adding a workshop
     public void navigateToAddWorkshop(View view) {
         Intent intent = new Intent(this, AddWorkshopActivity.class);
         startActivityForResult(intent, ADD_WORKSHOP_REQUEST);
     }
 
+    // Method to handle editing a workshop -needs work
     public void navigateToEditWorkshop(View view) {
         Intent intent = new Intent(this, EditWorkshopActivity.class);
         startActivity(intent);
     }
 
+    // Method to handle deleting a workshop
     public void deleteWorkshop(View view) {
         // Retrieve the position of the workshop item associated with the delete button
         int position = (int) view.getTag();
@@ -115,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         editOrDeleteWorkshop(position);
     }
 
+    // Method to handle the result of adding a workshop
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,4 +156,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
