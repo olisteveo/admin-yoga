@@ -1,9 +1,11 @@
 package com.example.yoga_admin.OliDB.Models;
 
+import com.example.yoga_admin.OliDB.DB;
+
 /**
  * Represents a workshop in the database.
  */
-public class Workshop {
+public class Workshop implements DB.HasPrimaryId {
     private int id;
     private String workshopName;
     private String workshopDescription;

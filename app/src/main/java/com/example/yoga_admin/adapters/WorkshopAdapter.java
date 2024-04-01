@@ -1,6 +1,8 @@
 package com.example.yoga_admin.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.yoga_admin.OliDB.Models.Workshop;
 import com.example.yoga_admin.R;
+import com.example.yoga_admin.ViewWorkshopDetailsActivity;
 
 import java.util.List;
 
@@ -49,15 +52,7 @@ public class WorkshopAdapter extends ArrayAdapter<Workshop> {
 
         // Set tag for the delete button
         viewHolder.imageButtonDelete.setTag(position);
-
-        // Set click listener for the view button
-        viewHolder.imageButtonView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle click event for view button here
-                // For example, you can open a new activity to view workshop details
-            }
-        });
+        viewHolder.imageButtonView.setTag(position);
 
         return convertView;
     }

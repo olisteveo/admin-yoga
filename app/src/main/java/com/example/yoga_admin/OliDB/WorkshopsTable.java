@@ -146,6 +146,15 @@ public class WorkshopsTable extends DB {
         return loaded;
     }
 
+    public Workshop getByID(int id) throws RuntimeException {
+        for (DB.HasPrimaryId record : loaded) {
+            if(record.getId() == id) {
+                return (Workshop) record;
+            }
+        }
+        throw new RuntimeException("ID not found - " + String.valueOf(id));
+    }
+
     /**
      * Retrieves a model object from a cursor.
      *
@@ -217,6 +226,35 @@ public class WorkshopsTable extends DB {
     /**
      * Deletes a workshop by its position in the list.
      *
+     * @param workshop The position of the workshop in the list.
+     * @return True if the workshop is successfully deleted, false otherwise.
+     */
+    public boolean deleteWorkshop(Workshop workshop)
+    {
+        int workshopId = workshop.getId();
+        String workshopName = workshop.getWorkshopName();
+
+        SQLiteDatabase db = getWritableDatabase();
+        // Delete the workshop from the database using its ID
+        int rowsDeleted = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(workshopId)});
+        db.close();
+
+        // Log whether the deletion was successful or not
+        if (rowsDeleted > 0) {
+            Log.i(LOG_TAG, "Deleted workshop: " + workshopName + ", ID " + workshopId);
+            loaded.remove(workshop);
+        } else {
+            Log.e(LOG_TAG, "Failed to delete workshop: " + workshopName + ", ID " + workshopId);
+        }
+
+        // Return true if at least one row is deleted, indicating successful deletion
+        return rowsDeleted > 0;
+
+    }
+
+    /**
+     * Deletes a workshop by its position in the list.
+     *
      * @param position The position of the workshop in the list.
      * @return True if the workshop is successfully deleted, false otherwise.
      */
@@ -228,22 +266,6 @@ public class WorkshopsTable extends DB {
 
         // Get the ID and name of the workshop based on its position in the list
         Workshop workshop = loaded.get(position);
-        int workshopId = workshop.getId();
-        String workshopName = workshop.getWorkshopName();
-
-        SQLiteDatabase db = getWritableDatabase();
-        // Delete the workshop from the database using its ID
-        int rowsDeleted = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(workshopId)});
-        db.close();
-
-        // Log whether the deletion was successful or not
-        if (rowsDeleted > 0) {
-            Log.i(LOG_TAG, "Deleted workshop: " + workshopName + ", ID " + workshopId + ", Position " + position);
-        } else {
-            Log.e(LOG_TAG, "Failed to delete workshop: " + workshopName + ", ID " + workshopId + ", Position " + position);
-        }
-
-        // Return true if at least one row is deleted, indicating successful deletion
-        return rowsDeleted > 0;
+        return deleteWorkshop(workshop);
     }
 }

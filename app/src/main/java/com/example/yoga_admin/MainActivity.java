@@ -3,6 +3,7 @@ package com.example.yoga_admin;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -32,22 +33,23 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialise workshop list and adapter
         workshopList = new ArrayList<>();
+        workshopsDB = WorkshopsTable.getInstance();
+        // Initialise the workshops database and load data
+        workshopList.addAll(workshopsDB.loaded());
         adapter = new WorkshopAdapter(this, workshopList);
 
         // Set adapter for the ListView
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        // Initialise the workshops database and load data
-        workshopsDB = WorkshopsTable.initFor(getApplication(), "workshops_db", 1);
-        workshopsDB.load();
-        workshopList.addAll(workshopsDB.loaded());
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
 
         // Set item click listener for the ListView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("dafuq", "position: " + String.valueOf(position));
+
                 editOrDeleteWorkshop(position);
             }
         });
@@ -67,15 +69,28 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onViewWorkshopClick(View view) {
+        Intent intent = new Intent(this, ViewWorkshopDetailsActivity.class);
+        // Retrieve the position of the workshop item associated with the delete button
+        int position = (int) view.getTag();
+        Log.d("view", "position: " + String.valueOf(position));
+
+        Workshop workshop = workshopList.get(position);
+        intent.putExtra("id", workshop.getId());
+        Log.d("view", "ID: " + String.valueOf(workshop.getId()));
+
+        startActivity(intent);
+    }
+
     // Method to handle the editing or deleting of a workshop
     private void editOrDeleteWorkshop(final int position) {
         final Workshop workshop = workshopList.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete this workshop?")
+        builder.setMessage("Are you sure you want to delete this yoga class?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (workshopsDB.deleteByPosition(position)) {
+                        if (workshopsDB.deleteWorkshop(workshop)) {
                             workshopList.remove(position);
                             adapter.notifyDataSetChanged();
                             Toast.makeText(MainActivity.this, "Deleted " + workshop.getWorkshopName(), Toast.LENGTH_SHORT).show();

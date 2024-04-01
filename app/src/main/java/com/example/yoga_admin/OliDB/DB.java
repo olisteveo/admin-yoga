@@ -163,5 +163,7 @@ public class DB extends DBM {
         msg.append(" records loaded");
         Log.i(LOG_TAG, msg.toString());
     }
-
+    public interface HasPrimaryId {
+        public int getId();
+    }
 }

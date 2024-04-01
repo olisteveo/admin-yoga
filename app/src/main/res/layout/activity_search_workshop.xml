@@ -32,7 +32,9 @@
             android:text="Search"
             android:layout_below="@id/editTextDate"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:visibility="gone" />
+
 
         <ListView
             android:id="@+id/listViewWorkshop"

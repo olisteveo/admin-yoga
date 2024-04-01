@@ -1,6 +1,8 @@
 package com.example.yoga_admin;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +13,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.yoga_admin.OliDB.Models.Workshop;
 import com.example.yoga_admin.OliDB.WorkshopsTable;
@@ -88,6 +92,19 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         });
     }
 
+    public void onViewWorkshopClick(View view) {
+        Intent intent = new Intent(this, ViewWorkshopDetailsActivity.class);
+        // Retrieve the position of the workshop item associated with the delete button
+        int position = (int) view.getTag();
+        Log.d("view", "position: " + String.valueOf(position));
+
+        Workshop workshop = workshopList.get(position);
+        intent.putExtra("id", workshop.getId());
+        Log.d("view", "ID: " + String.valueOf(workshop.getId()));
+
+        startActivity(intent);
+    }
+
     // Method to filter workshops based on the entered text and/or selected date
     private void filterWorkshops(String searchText, String selectedDate) {
         Log.d("Filter", "Search Text: " + searchText);
@@ -95,9 +112,11 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         List<Workshop> filteredList = new ArrayList<>();
         for (Workshop workshop : workshopsDB.loaded()) {
             // Perform case-insensitive search on teacher name
-            boolean teacherMatches = workshop.getTeacher().toLowerCase().contains(searchText.toLowerCase());
-            boolean dateMatches = workshop.getDate().equals(selectedDate);
+            boolean teacherMatches = (searchText.length() > 0 && workshop.getTeacher().toLowerCase().contains(searchText.toLowerCase()));
+            boolean dateMatches = (workshop.getDate().contains(selectedDate));
             Log.d("Filter", "Teacher: " + workshop.getTeacher() + ", Date: " + workshop.getDate());
+            Log.d("Filter", "Teacher matches: " + String.valueOf(teacherMatches));
+            Log.d("Filter", "Date matches: " + String.valueOf(dateMatches));
             if (teacherMatches || dateMatches) {
                 filteredList.add(workshop);
             }
@@ -123,6 +142,40 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         String selectedDate = editTextDate.getText().toString().trim();
         filterWorkshops(searchText, selectedDate);
     }
+
+    public void deleteWorkshop(View view) {
+        // Retrieve the position of the workshop item associated with the delete button
+        int position = (int) view.getTag();
+
+        // Call the method to edit or delete the workshop
+        editOrDeleteWorkshop(position);
+    }
+
+    // Method to handle the editing or deleting of a workshop
+    private void editOrDeleteWorkshop(final int position) {
+        final Workshop workshop = workshopList.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this yoga class?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (workshopsDB.deleteByPosition(position)) {
+                            workshopList.remove(position);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(SearchWorkshopActivity.this, "Deleted " + workshop.getWorkshopName(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .create()
+                .show();
+    }
+
 
     // Method to show DatePickerDialog
     private void showDatePickerDialog() {
