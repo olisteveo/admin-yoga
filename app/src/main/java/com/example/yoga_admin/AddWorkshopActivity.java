@@ -201,5 +201,14 @@ public class AddWorkshopActivity extends AppCompatActivity {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
         }
     }
+    // Override onBackPressed to handle back button press
+    @Override
+    public void onBackPressed() {
+        // Perform any additional actions before navigating back
+        // For example, saving data or showing a confirmation dialog
+
+        // Call super.onBackPressed() to allow normal back navigation
+        super.onBackPressed();
+    }
 
 }

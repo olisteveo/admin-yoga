@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddWorkshopActivity" android:parentActivityName=".MainActivity" />
-        <activity android:name=".SearchWorkshopActivity" />
+        <activity android:name=".SearchWorkshopActivity"  android:parentActivityName=".MainActivity" />
         <activity android:name=".ViewWorkshopActivity" />
         <activity android:name=".ViewWorkshopDetailsActivity" />
     </application>
