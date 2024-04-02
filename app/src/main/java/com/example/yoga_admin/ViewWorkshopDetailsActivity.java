@@ -66,7 +66,5 @@ public class ViewWorkshopDetailsActivity extends AppCompatActivity {
         // Retrieve the position of the workshop item associated with the delete button
         int position = (int) view.getTag();
 
-        // Call the method to edit or delete the workshop
-//        editOrDeleteWorkshop(position);
     }
 }

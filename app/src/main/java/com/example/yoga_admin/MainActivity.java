@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-//        adapter.notifyDataSetChanged();
-
         // Set item click listener for the ListView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

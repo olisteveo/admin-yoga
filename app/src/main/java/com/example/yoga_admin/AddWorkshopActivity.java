@@ -1,4 +1,5 @@
-// AddworkshopActivity.java
+// AddWorkshopActivity.java
+
 package com.example.yoga_admin;
 
 import android.app.DatePickerDialog;
@@ -21,8 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Activity for adding a new workshop.
+ */
 public class AddWorkshopActivity extends AppCompatActivity {
 
+    // Views
     private EditText editTextWorkshopName;
     private EditText editTextWorkshopDescription;
     private EditText editTextDate;
@@ -38,7 +43,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_workshop);
 
-        // Initialise views
+        // Initialize views
         editTextWorkshopName = findViewById(R.id.editTextWorkshopName);
         editTextWorkshopDescription = findViewById(R.id.editTextWorkshopDescription);
         editTextDate = findViewById(R.id.editTextDate);
@@ -49,25 +54,37 @@ public class AddWorkshopActivity extends AppCompatActivity {
         spinnerWorkshopType = findViewById(R.id.spinnerWorkshopType);
         spinnerTeacher = findViewById(R.id.spinnerTeacher);
 
-        // Set up Spinner for teacher selection
+        // Set up Spinners
+        setupSpinners();
+
+        // Set onClickListeners
+        setOnClickListeners();
+    }
+
+    // Method to set up Spinners
+    private void setupSpinners() {
+        // Teacher Spinner
         ArrayAdapter<CharSequence> teacherAdapter = ArrayAdapter.createFromResource(this,
                 R.array.teacher_names, android.R.layout.simple_spinner_item);
         teacherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTeacher.setAdapter(teacherAdapter);
 
-        // Set up Spinner for capacity
+        // Capacity Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.capacity_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCapacity.setAdapter(adapter);
 
-        // Set up Spinner for workshop type
+        // Workshop Type Spinner
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.yoga_types_array, android.R.layout.simple_spinner_item);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerWorkshopType.setAdapter(typeAdapter);
+    }
 
-        // Set OnClickListener for the date EditText
+    // Method to set onClickListeners
+    private void setOnClickListeners() {
+        // Date EditText
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +92,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
             }
         });
 
-        // Set OnClickListener for start time EditText
+        // Start Time EditText
         editTextStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +100,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
             }
         });
 
-        // Set OnClickListener for end time EditText
+        // End Time EditText
         editTextEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +108,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
             }
         });
 
-        // Set click listener for "Add workshop" button
+        // Add Workshop Button
         Button buttonAddWorkshop = findViewById(R.id.buttonAddWorkshop);
         buttonAddWorkshop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +146,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    // Method to show the TimePickerDialog
+    // Method to show TimePickerDialog
     private void showTimePickerDialog(final EditText editText) {
         // Get current time
         Calendar calendar = Calendar.getInstance();
@@ -151,7 +168,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
 
     // Method to add the workshop
     private void addWorkshop() {
-        // Get all the input values
+        // Get all input values
         String workshopName = editTextWorkshopName.getText().toString().trim();
         String workshopDescription = editTextWorkshopDescription.getText().toString().trim();
         String date = editTextDate.getText().toString().trim();
@@ -162,7 +179,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
         String priceString = editTextPrice.getText().toString().trim();
         String selectedTeacher = spinnerTeacher.getSelectedItem().toString();
 
-        // Check if all the required fields are filled
+        // Check if all required fields are filled
         if (!workshopName.isEmpty() && !workshopDescription.isEmpty() && !date.isEmpty() &&
                 !startTime.isEmpty() && !endTime.isEmpty() && !capacity.isEmpty() && !priceString.isEmpty()) {
             try {
@@ -201,6 +218,7 @@ public class AddWorkshopActivity extends AppCompatActivity {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
         }
     }
+
     // Override onBackPressed to handle back button press
     @Override
     public void onBackPressed() {
@@ -210,5 +228,4 @@ public class AddWorkshopActivity extends AppCompatActivity {
         // Call super.onBackPressed() to allow normal back navigation
         super.onBackPressed();
     }
-
 }

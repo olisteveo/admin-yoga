@@ -5,9 +5,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
+import androidx.annotation.NonNull;
 import com.example.yoga_admin.OliDB.Models.Workshop;
-
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +34,7 @@ public class WorkshopsTable extends DB {
     protected static final String COLUMN_UPDATED_AT = "updated_at";
     private ArrayList<Workshop> loaded;
     private static WorkshopsTable instance = null;
+    private DatabaseReference mDatabase;
 
     /**
      * Constructor for the WorkshopsTable class.
@@ -42,6 +46,7 @@ public class WorkshopsTable extends DB {
     public WorkshopsTable(Application app, String dbName, int dbVersion) {
         super(app, dbName, dbVersion);
         loaded = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference("workshops"); // Change "workshops" to your Firebase database reference
         Log.d(LOG_TAG, "Yoga DB init");
     }
 
@@ -146,14 +151,26 @@ public class WorkshopsTable extends DB {
         return loaded;
     }
 
+    /**
+     * Retrieves a workshop object from the loaded list its ID.
+     *
+     * @param id The ID of the workshop to retrieve.
+     * @return The workshop object with the specified ID.
+     * @throws RuntimeException If the workshop with the given ID is not found in the loaded list
+     */
     public Workshop getByID(int id) throws RuntimeException {
+        // Iterate through the loaded list of workshops
         for (DB.HasPrimaryId record : loaded) {
+            // Check if the ID of the current workshop matches the specified ID
             if(record.getId() == id) {
+                // Return the workshop object if found
                 return (Workshop) record;
             }
         }
+        // Throw a runtime exception if the workshop with the specified ID is not found
         throw new RuntimeException("ID not found - " + String.valueOf(id));
     }
+
 
     /**
      * Retrieves a model object from a cursor.
@@ -207,6 +224,7 @@ public class WorkshopsTable extends DB {
         long id = db.insert(getTableName(), null, values);
         db.close();
 
+
         // Build the log message showing all details stored in db
         StringBuilder msg = new StringBuilder("Inserted Yoga Workshop - ID ");
         msg.append(id);
@@ -219,6 +237,29 @@ public class WorkshopsTable extends DB {
         msg.append(", Workshop Type: ").append(workshop.getWorkshopType());
         msg.append(", Teacher: ").append(workshop.getTeacher());
         Log.i(LOG_TAG, msg.toString());
+
+        // If insertion was successful in SQLite, also insert into Firebase
+        if (id != -1) {
+            mDatabase.push().setValue(workshop)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Data successfully written to Firebase
+                            // You can put any success handling code here
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Handle failure
+                            // You can put any failure handling code here
+                            Log.e("Firebase", "Failed to write data to Firebase: " + e.getMessage());
+                        }
+                    });
+        } else {
+            // Handle SQLite insertion failure
+            Log.e("SQLite", "Failed to insert data into SQLite database");
+        }
 
         return id;
     }
@@ -249,7 +290,6 @@ public class WorkshopsTable extends DB {
 
         // Return true if at least one row is deleted, indicating successful deletion
         return rowsDeleted > 0;
-
     }
 
     /**

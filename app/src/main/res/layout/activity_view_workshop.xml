@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Include the layout containing imageButtonView -->
-    <include
-        android:id="@+id/include_image_button_view"
-        layout="@layout/custom_workshop_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <!-- TextView to display Workshop Name -->
     <TextView
         android:id="@+id/textViewWorkshopName"
@@ -18,9 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Workshop Name"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/include_image_button_view"
-    android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display Workshop Description -->
     <TextView
@@ -29,9 +20,8 @@
         android:layout_height="wrap_content"
         android:text="Workshop Description"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewWorkshopName"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display Date -->
     <TextView
@@ -40,9 +30,8 @@
         android:layout_height="wrap_content"
         android:text="Date"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewWorkshopDescription"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display Start Time -->
     <TextView
@@ -51,9 +40,8 @@
         android:layout_height="wrap_content"
         android:text="Start Time"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewDate"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display End Time -->
     <TextView
@@ -62,9 +50,8 @@
         android:layout_height="wrap_content"
         android:text="End Time"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewStartTime"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display Capacity -->
     <TextView
@@ -73,9 +60,8 @@
         android:layout_height="wrap_content"
         android:text="Capacity"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewEndTime"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display Price -->
     <TextView
@@ -84,9 +70,8 @@
         android:layout_height="wrap_content"
         android:text="Price"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewCapacity"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
     <!-- TextView to display Workshop Type -->
     <TextView
@@ -95,8 +80,7 @@
         android:layout_height="wrap_content"
         android:text="Workshop Type"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/textViewPrice"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>

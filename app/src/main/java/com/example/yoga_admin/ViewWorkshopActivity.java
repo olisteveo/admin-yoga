@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Activity to view workshop details.
+ */
 public class ViewWorkshopActivity extends AppCompatActivity {
 
     @Override
@@ -54,7 +57,7 @@ public class ViewWorkshopActivity extends AppCompatActivity {
         TextView textViewWorkshopType = findViewById(R.id.textViewWorkshopType);
         textViewWorkshopType.setText(workshopType);
 
-// Set onClickListener for the image button
+        // Set onClickListener for the image button
         ImageButton imageButtonView = findViewById(R.id.imageButtonView);
         imageButtonView.setOnClickListener(new View.OnClickListener() {
             @Override

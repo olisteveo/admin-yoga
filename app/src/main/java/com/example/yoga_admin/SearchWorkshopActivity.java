@@ -17,17 +17,23 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.yoga_admin.OliDB.Models.Workshop;
 import com.example.yoga_admin.OliDB.WorkshopsTable;
 import com.example.yoga_admin.adapters.WorkshopAdapter;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Activity for searching and viewing workshops.
+ */
 public class SearchWorkshopActivity extends AppCompatActivity {
 
+    // Views
     private ListView listView;
     private WorkshopAdapter adapter;
     private List<Workshop> workshopList;
@@ -42,7 +48,7 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_workshop);
 
-        // Initialise views
+        // Initialize views
         listView = findViewById(R.id.listViewWorkshop);
         editTextSearch = findViewById(R.id.editTextSearch);
         editTextDate = findViewById(R.id.editTextDate);
@@ -51,10 +57,10 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         textViewNoResults = findViewById(R.id.textViewNoResults);
         textViewNoResults.setVisibility(View.GONE);
 
-        // Initialise workshop list
+        // Initialize workshop list
         workshopList = new ArrayList<>();
 
-        // Initialise adapter
+        // Initialize adapter
         adapter = new WorkshopAdapter(this, workshopList);
         listView.setAdapter(adapter);
 
@@ -92,6 +98,10 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handles click events on the "View Workshop" button.
+     * @param view The view that was clicked.
+     */
     public void onViewWorkshopClick(View view) {
         Intent intent = new Intent(this, ViewWorkshopDetailsActivity.class);
         // Retrieve the position of the workshop item associated with the delete button
@@ -105,7 +115,11 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Method to filter workshops based on the entered text and/or selected date
+    /**
+     * Filters the workshops based on the entered text and/or selected date.
+     * @param searchText The text to search for.
+     * @param selectedDate The selected date.
+     */
     private void filterWorkshops(String searchText, String selectedDate) {
         Log.d("Filter", "Search Text: " + searchText);
         Log.d("Filter", "Selected Date: " + selectedDate);
@@ -136,13 +150,19 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         }
     }
 
-    // Method to perform the search
+    /**
+     * Performs the search based on the entered text and selected date.
+     */
     private void performSearch() {
         String searchText = editTextSearch.getText().toString().trim();
         String selectedDate = editTextDate.getText().toString().trim();
         filterWorkshops(searchText, selectedDate);
     }
 
+    /**
+     * Handles the deletion of a workshop.
+     * @param view The view associated with the delete button.
+     */
     public void deleteWorkshop(View view) {
         // Retrieve the position of the workshop item associated with the delete button
         int position = (int) view.getTag();
@@ -151,7 +171,10 @@ public class SearchWorkshopActivity extends AppCompatActivity {
         editOrDeleteWorkshop(position);
     }
 
-    // Method to handle the editing or deleting of a workshop
+    /**
+     * Displays an alert dialog to confirm the deletion of a workshop.
+     * @param position The position of the workshop to be deleted.
+     */
     private void editOrDeleteWorkshop(final int position) {
         final Workshop workshop = workshopList.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -176,8 +199,9 @@ public class SearchWorkshopActivity extends AppCompatActivity {
                 .show();
     }
 
-
-    // Method to show DatePickerDialog
+    /**
+     * Shows a DatePickerDialog to select a date.
+     */
     private void showDatePickerDialog() {
         // Get current date
         Calendar calendar = Calendar.getInstance();

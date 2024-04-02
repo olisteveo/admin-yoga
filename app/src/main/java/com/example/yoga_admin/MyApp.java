@@ -20,8 +20,6 @@ public class MyApp extends Application {
         Log.d(TAG, "Application onCreate()"); // Log application creation
         workshopsDB = WorkshopsTable.initFor(this, "workshops_db", 1);
         workshopsDB.load();
-//        yogaDB = WorkshopsTable.initFor(this, DATABASE_NAME, DATABASE_VERSION); // Initialise database manager
-//        yogaDB.load(); // Load tasks from the database
     }
 
     @Override

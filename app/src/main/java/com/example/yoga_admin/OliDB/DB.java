@@ -163,7 +163,18 @@ public class DB extends DBM {
         msg.append(" records loaded");
         Log.i(LOG_TAG, msg.toString());
     }
+
+    /**
+     * Interface representing objects with a primary ID field.
+     * Classes implementing this interface must provide a method to retrieve their primary ID.
+     */
     public interface HasPrimaryId {
+        /**
+         * Method to retrieve the primary ID of the object.
+         *
+         * @return The primary ID of the object.
+         */
         public int getId();
     }
+
 }
